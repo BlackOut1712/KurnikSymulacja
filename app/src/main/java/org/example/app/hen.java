@@ -49,6 +49,7 @@ public class hen extends Animal {
         //Sprawdzamy ilosc drapieznikow w kazdej z cwiartek układu:
         double Left=0, Right=0, Forward=0, Back=0;
         double distanceL=0, distanceR=0, distanceF=0, distanceB=0;
+
         for(ArrayList<Integer> Predator: Surrouding){
             int X = Predator.get(0);
             int Y = Predator.get(1);
@@ -63,7 +64,7 @@ public class hen extends Animal {
             // ---------------------- Podział na ćwiartki: ----------------------------------------------------------------
 
             //Ćwiartka 1 (ruch do przodu)
-            if((angle >= Math.PI/4 || angle <= -Math.PI/4 || X==0) && Y>0){      //tangens ma okresowość PI, a arctan zwraca od -pi/2 do pi/2, więc warunki się komplikują. Oprócz warunku na konkretny kąt, muszę sprawdzić znak którejś z współrzędnych.
+            if((angle >= Math.PI/4 || angle <= -Math.PI/4 || X==0) && Y<0){      //tangens ma okresowość PI, a arctan zwraca od -pi/2 do pi/2, więc warunki się komplikują. Oprócz warunku na konkretny kąt, muszę sprawdzić znak którejś z współrzędnych.
                 Forward++;
 
                 //dystans miedzy kura a najblizszym lisem w tej cwiartce:
@@ -73,7 +74,7 @@ public class hen extends Animal {
             }
 
             //Ćwiartka 2 (ruch w prawo)
-            else if(angle <= Math.PI/4 && angle >= -Math.PI/4 && X>0){
+            if(angle <= Math.PI/4 && angle >= -Math.PI/4 && X>0){
                 Right++;
                                     
                 //dystans miedzy kura a najblizszym lisem w tej cwiartce:
@@ -83,7 +84,7 @@ public class hen extends Animal {
             }
 
             //Ćwiartka 3 (ruch w tył)
-            else if((angle >= Math.PI/4 || angle <= -Math.PI/4 || X==0) && Y<0){
+            if((angle >= Math.PI/4 || angle <= -Math.PI/4 || X==0) && Y>0){
                 Back++;
 
                 //dystans miedzy kura a najblizszym lisem w tej cwiartce:
@@ -92,7 +93,7 @@ public class hen extends Animal {
                 }
             }
             //Ćwiartka 4 (ruch w lewo)
-            else if(angle <= Math.PI/4 && angle >= -Math.PI/4 && X<0){
+            if(angle <= Math.PI/4 && angle >= -Math.PI/4 && X<0){
                 Left++;
 
                 //dystans miedzy kura a najblizszym lisem w tej cwiartce:
@@ -109,20 +110,20 @@ public class hen extends Animal {
         Back = ((Back>0) ? Back/distanceB: 0.0);
         Left = ((Left>0) ? Left/distanceL: 0.0);
 
+        System.out.println("Poziom zagrozenia: \n F: "+Forward+" \n R: "+Right + "\n B: "+Back+ "\n L: "+Left);
+
         // ------------- Podjecie decyzji --------------------
 
         double[] decision = {Forward, Right, Back, Left};
         Arrays.sort(decision);
         int n = 0;
-        
-        
-        /*double min1 = Math.min(Forward, Back);
-        double min2 = Math.min(Right, Left);
-        double safestPath = Math.min(min1, min2);*/
+
+        // Randomizer sprawia, że n zwiększa się nadwyraz, i kura głupieje
 
         do{
             double safestPath = decision[n];
-            if(safestPath == Forward && moveForward()){ 
+            double randomizer = Math.random();                  // Randomizer jakby kilka sciezek bylo rownie bezpiecznych, żeby kura wybierala losowo.
+            if(safestPath == Forward  && moveForward()){ 
                 break;  
             }
             else if(safestPath == Back && moveBack()){
@@ -131,7 +132,7 @@ public class hen extends Animal {
             else if(safestPath == Right && moveRight()){  
                 break;
             }
-            else if(safestPath == Left && moveLeft()){
+            else if(safestPath == Left && moveLeft() ){
                 break;    
             }
             else{

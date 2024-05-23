@@ -42,6 +42,7 @@ public class Map {
     }
 
     public static char get(int x, int y){
+        if(x<0 || y<0) return '-';
         return map[y][x];
     }
 

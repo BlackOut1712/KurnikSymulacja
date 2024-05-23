@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public abstract class Animal {
     private char sign;
     private int visual_field;
-    public int X=0;
-    public int Y=0;
+    public int X=2;
+    public int Y=2;
     private double maxHP;
     private double HP;
     private double speed=1;
@@ -62,8 +62,8 @@ public abstract class Animal {
     }
 
     public boolean moveLeft(){
-        if(this.X-1>=0                                      //check if index x-1 fits in Map;
-        /*&& Map.get(this.X-1, this.Y) == 'x'*/){               //check if spot is free
+        if(Map.checkIfFree(this.X-1, this.Y)){               //check if spot is free
+            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Lewo.");
             Map.set(this.X, this.Y, 'x');
             this.X-=1;
             Map.set(this.X, this.Y, sign);
@@ -73,8 +73,8 @@ public abstract class Animal {
     }
 
     public boolean moveRight(){
-        if(this.X+1 < Map.getXsize()                //check if index x+1 fits in Map;
-        /*&& Map.get(this.X+1, this.Y) == 'x'*/){       //check if spot is free
+        if(Map.checkIfFree(this.X+1, this.Y)){       //check if spot is free
+            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Prawo.");
             Map.set(this.X, this.Y, 'x');
             this.X +=1;
             Map.set(this.X, this.Y, sign);
@@ -84,8 +84,8 @@ public abstract class Animal {
     }
 
     public boolean moveBack(){
-        if(this.Y+1 < Map.getYsize()                //check if index y+1 fits in Map;
-        /*&& Map.get(this.X, this.Y+1) == 'x' */){       //check if spot is free
+        if(Map.checkIfFree(this.X, this.Y+1)){       //check if spot is free
+            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w tył.");
             Map.set(this.X, this.Y, 'x');
             this.Y+=1;
             Map.set(this.X, this.Y, sign);
@@ -95,8 +95,8 @@ public abstract class Animal {
     }
 
     public boolean moveForward(){
-        if(this.Y-1 >=0                                 //check if index y-1 fits in Map;
-        /*&& Map.get(this.X, this.Y-1) == 'x'*/){           //check if spot is free
+        if(Map.checkIfFree(this.X, this.Y-1)){           //check if spot is free
+            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w przód.");
             Map.set(this.X, this.Y, 'x');
             this.Y-=1;
             Map.set(this.X, this.Y, sign);
@@ -150,6 +150,7 @@ public abstract class Animal {
 
         ArrayList<ArrayList<Integer>> Predators_Location = new ArrayList<>();
 
+        //Sprawdzamy kwadrat od [X(lub Y)-polewidzenia] do [X(lub Y)+polewidzenia] i sprawdzamy czy dane pole nalezy do okręgu pola widzenia.
         // Y jest 0 (dla this.Y-visual_field < 0) lub this.Y-visual_field (dla this.Y-visual_field>=0), kontynuuj do pozycji This.Y+visual_field lub konca tablicy, to samo dla X
         for(int Y = Math.max(this.Y-visual_field, 0); Y<Math.min(this.Y+visual_field,Map.getYsize()); Y++){               
             for(int X= Math.max(this.X-visual_field, 0); X< Math.min(this.X+visual_field, Map.getXsize()); X++){                              
