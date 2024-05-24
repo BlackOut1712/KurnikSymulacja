@@ -1,5 +1,7 @@
 package org.example.app;
 
+import java.util.ArrayList;
+
 public class Fox extends Animal{
     //private int numberOfPreys;
     private double min_damage;
@@ -9,6 +11,7 @@ public class Fox extends Animal{
         super();
         this.setHP(100);
         this.setSign('L');
+        this.setVision(8);
         this.min_damage = 30;
         this.max_damage = 100;
     }
@@ -18,6 +21,21 @@ public class Fox extends Animal{
          * i pozniej szukac tego stworzenia w tablicy swoich przedstawicieli? Wtedy bym wiedzial kogo konkretnie atakuje lis.
          */
         
+    }
+
+    public void Hunt(){
+        this.RUN();
+        ArrayList<ArrayList<Integer>> Hens_in_attack_range = checkSurroudings(1);
+        if(Hens_in_attack_range == null || Hens_in_attack_range.size() == 0){
+            return;     //nothing to attack
+        }
+        
+        int random_index = (int) (Math.random() * (Hens_in_attack_range.size()+1)-0.01);
+        
+        int prey_X = Hens_in_attack_range.get(random_index).get(0);
+        int prey_Y = Hens_in_attack_range.get(random_index).get(1);
+
+        //for(hen kura: );
     }
 
     private double CountDamage(){

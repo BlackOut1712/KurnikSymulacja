@@ -40,10 +40,10 @@ class start{
         
         for(int i=0; i<TURY; i++){
             for(hen kura: kury){
-                kura.RUN(kura.checkSurroudings());
+                kura.RUN();
             }
             for(Fox lis: lisy){
-                lis.move(); 
+                lis.Hunt(); 
             } 
             System.out.println("\n TURA: " + (i+1));
             Map.ShowMap();
