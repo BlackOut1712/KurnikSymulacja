@@ -20,12 +20,8 @@ public class Fox extends Animal{
         /* a gdyby tak w tej funkcji sprawdzac najblizsze otoczenie lisa, jesli jest tam jakies stworzenie (sprawdzajac przy uzyciu map.get(x,y))
          * i pozniej szukac tego stworzenia w tablicy swoich przedstawicieli? Wtedy bym wiedzial kogo konkretnie atakuje lis.
          */
-        
-    }
 
-    public void Hunt(){
-        this.RUN();
-        ArrayList<ArrayList<Integer>> Hens_in_attack_range = checkSurroudings(1);
+         /*ArrayList<ArrayList<Integer>> Hens_in_attack_range = checkSurroudings(1);
         if(Hens_in_attack_range == null || Hens_in_attack_range.size() == 0){
             return;     //nothing to attack
         }
@@ -35,8 +31,14 @@ public class Fox extends Animal{
         int prey_X = Hens_in_attack_range.get(random_index).get(0);
         int prey_Y = Hens_in_attack_range.get(random_index).get(1);
 
-        //for(hen kura: );
+        for(hen kura: );*/
+        
     }
+
+    public void Hunt(){
+        this.RUN();
+       
+    }   
 
     private double CountDamage(){
         double damage = Math.random()*(this.max_damage - this.min_damage)+min_damage;

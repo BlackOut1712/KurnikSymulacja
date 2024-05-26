@@ -199,8 +199,8 @@ public abstract class Animal {
         ArrayList<ArrayList<Integer>> Surrouding = checkSurroudings();
         //Sprawdzamy czy w otoczeniu są drapieżniki
         if(Surrouding == null || Surrouding.size() == 0){
-            if(this.sign == 'K') System.out.println("Nie ma przed czym uciekac.");
-            else if(this.sign == 'L') System.out.println("Nie ma na co polować");
+            if(this.sign == 'K') System.out.println("Kura ("+this.X+","+this.Y+") nie ma przed czym uciekac.");
+            else if(this.sign == 'L') System.out.println("Lis ("+this.X+","+this.Y+") nie ma na co polować");
             return false;
         }
 
