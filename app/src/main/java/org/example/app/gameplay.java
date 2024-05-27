@@ -1,6 +1,7 @@
-/*package org.example.app;
+package org.example.app;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class gameplay {
     private static int TURY;
@@ -39,6 +40,10 @@ public class gameplay {
         }
     }
 
+    public static void RemoveAnimal(Iterator it){
+        it.remove();
+    }
+
     public static void AddFox(){
         Fox newbie = new Fox();
         lisy.add(newbie);
@@ -53,5 +58,9 @@ public class gameplay {
     public static void setTurnNumber(int number){
         TURY = number;
     }
+
+    public static int getTurnNumber(){
+        return TURY;
+    }
+
 }
-*/

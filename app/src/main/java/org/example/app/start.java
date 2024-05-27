@@ -1,49 +1,42 @@
 package org.example.app;
 
+import java.util.ConcurrentModificationException;
 
 class start{
-    public static void main(String[] args){
-        int Number_of_hens = 4;
-        int Number_of_foxes = 4;            // ZWIERZĘTA SIĘ KLINUJĄ
-        int TURY=10;
+    public static void main(String[] args) throws ConcurrentModificationException{
 
         Map.GenerateMap(30, 15);
 
+        gameplay.AddHen(4);
 
-        hen[] kury = new hen[Number_of_hens];
-        
-        for(int i=0; i<Number_of_hens; i++){
-            kury[i] = new hen();
-        }
+
         //Ustaw kury
         for(int i=0; i<100; i++){
-            for(hen kura: kury){
+            for(hen kura: gameplay.getHens()){
                 kura.move();
             }
         }
         
-        
-        Fox[] lisy = new Fox[Number_of_foxes];
-        for(int i=0; i<Number_of_foxes; i++){
-            lisy[i] = new Fox();
-        }
+        gameplay.AddFox(4);
 
         //Ustaw lisy
         for(int i=0; i<10; i++){
-            for(Fox lis: lisy){
+            for(Fox lis: gameplay.getFoxes()){
                 lis.move();
             }
         }
 
         Map.ShowMap();
 
+        gameplay.setTurnNumber(10);
         
-        for(int i=0; i<TURY; i++){
-            for(hen kura: kury){
+        for(int i=0; i<gameplay.getTurnNumber(); i++){
+            for(hen kura: gameplay.getHens()){
                 kura.RUN();
             }
-            for(Fox lis: lisy){
-                lis.Hunt(); 
+            for(Fox lis: gameplay.getFoxes()){
+                lis.Hunt();
+                lis.Hunt();  
             } 
             System.out.println("\n TURA: " + (i+1));
             Map.ShowMap();

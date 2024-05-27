@@ -2,6 +2,7 @@ package org.example.app;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 
 public abstract class Animal {
@@ -64,6 +65,7 @@ public abstract class Animal {
     }
 
     public boolean moveLeft(){
+        if(!isAlive) return false;
         if(Map.checkIfFree(this.X-1, this.Y)){               //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Lewo.");
             Map.set(this.X, this.Y, 'x');
@@ -75,6 +77,7 @@ public abstract class Animal {
     }
 
     public boolean moveRight(){
+        if(!isAlive) return false;
         if(Map.checkIfFree(this.X+1, this.Y)){       //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Prawo.");
             Map.set(this.X, this.Y, 'x');
@@ -86,6 +89,7 @@ public abstract class Animal {
     }
 
     public boolean moveBack(){
+        if(!isAlive) return false;
         if(Map.checkIfFree(this.X, this.Y+1)){       //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w tył.");
             Map.set(this.X, this.Y, 'x');
@@ -97,6 +101,7 @@ public abstract class Animal {
     }
 
     public boolean moveForward(){
+        if(!isAlive) return false;
         if(Map.checkIfFree(this.X, this.Y-1)){           //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w przód.");
             Map.set(this.X, this.Y, 'x');
@@ -124,16 +129,17 @@ public abstract class Animal {
         this.visual_field = x;
     }
 
-    public double getDamage(double damage){
+    public double getDamage(double damage, Iterator it){
         this.HP -= damage;
-        checkIfDead();
+        checkIfDead(it);
         return this.HP;
     }
 
-    private void checkIfDead(){
+    private void checkIfDead(Iterator it){
         if(this.HP<=0){
             this.HP = 0;
-            isAlive = false;
+            this.isAlive = false;
+            gameplay.RemoveAnimal(it);
             Map.set(this.X, this.Y, 'x');
         }
     }
@@ -200,7 +206,7 @@ public abstract class Animal {
         //Sprawdzamy czy w otoczeniu są drapieżniki
         if(Surrouding == null || Surrouding.size() == 0){
             if(this.sign == 'K') System.out.println("Kura ("+this.X+","+this.Y+") nie ma przed czym uciekac.");
-            else if(this.sign == 'L') System.out.println("Lis ("+this.X+","+this.Y+") nie ma na co polować");
+            else if(this.sign == 'L') System.out.println("Lis ("+this.X+","+this.Y+") nie ma na co polowac.");
             return false;
         }
 
