@@ -1,7 +1,6 @@
 package org.example.app;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;;
 
 public class Fox extends Animal{
