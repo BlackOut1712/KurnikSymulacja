@@ -19,6 +19,20 @@ public class hen extends Animal {
     }
 
     public void LayAnEgg(){
-        //????
+        gameplay.AddEgg();
+        laidEggs++;
+    }
+
+    public void MakeAMove(){
+        if(!RUN()){
+            double randomizer = Math.random();
+            if(randomizer<=0.1){
+                LayAnEgg();
+                System.out.println("Kura ("+this.X+","+this.Y+") znosi jajo");
+            }
+            else{
+                move();
+            }
+        }
     }
 }

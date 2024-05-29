@@ -18,6 +18,11 @@ public class Fox extends Animal{
         this.max_damage = 100;
     }
 
+    private double CountDamage(){
+        double damage = Math.random()*(this.max_damage - this.min_damage)+min_damage;
+        return damage;
+    } 
+
     public void attack(){
         ArrayList<ArrayList<Integer>> Hens_in_attack_range = checkSurroudings(1);
         if(Hens_in_attack_range == null || Hens_in_attack_range.size() == 0){
@@ -41,14 +46,17 @@ public class Fox extends Animal{
 
     }
 
-    public void Hunt(){
-        this.RUN();
-        this.attack();
+    public boolean Hunt(){
+        if(this.RUN()){
+            this.attack();
+            return true;
+        }
+        return false;
     }   
 
-    private double CountDamage(){
-        double damage = Math.random()*(this.max_damage - this.min_damage)+min_damage;
-        return damage;
-    } 
-
+    public void MakeAMove(){
+        if(!Hunt()){
+            move();
+        }
+    }
 }

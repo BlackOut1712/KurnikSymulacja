@@ -25,22 +25,25 @@ class start{
                 lis.move();
             }
         }
+        gameplay.setTurnNumber(4);
 
-        Map.ShowMap();
+        gameplay.StartSymulation();
 
-        gameplay.setTurnNumber(10);
-        
+        /*Map.ShowMap();
         for(int i=0; i<gameplay.getTurnNumber(); i++){
             for(hen kura: gameplay.getHens()){
-                kura.RUN();
+                kura.MakeAMove();
             }
             for(Fox lis: gameplay.getFoxes()){
-                lis.Hunt();
-                lis.Hunt();  
+                lis.MakeAMove();
             } 
             System.out.println("\n TURA: " + (i+1));
             Map.ShowMap();
-        } 
+        } */
+
+
+        
+        
 
         
         
