@@ -1,10 +1,10 @@
 package org.example.app;
 
 
-public class hen extends Animal {
+public class Hen extends Animal {
     private int laidEggs = 0;
 
-    public hen(){
+    public Hen(){
         super();
         this.setHP(60);
         this.setSpeed(1);
@@ -19,14 +19,14 @@ public class hen extends Animal {
     }
 
     public void LayAnEgg(){
-        gameplay.AddEgg();
+        Gameplay.AddEgg();
         laidEggs++;
     }
 
     public void MakeAMove(){
         if(!RUN()){
             double randomizer = Math.random();
-            if(randomizer<=0.1){
+            if(randomizer<=0.05){
                 LayAnEgg();
                 System.out.println("Kura ("+this.X+","+this.Y+") znosi jajo");
             }

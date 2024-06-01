@@ -3,25 +3,26 @@ package org.example.app;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class gameplay {
+public class Gameplay {
     private static int TURY;
-    private static int DaysTilHatch;
+    private static int DaysTilHatch=3;
     private static int Day = 0;
     private static int MaxDays;
     private static boolean isDay;
     
-    private static ArrayList<hen> kury = new ArrayList();
-    private static ArrayList koguty = new ArrayList();
-    private static ArrayList<Fox> lisy = new ArrayList();
-    private static ArrayList psy = new ArrayList();
+    private static ArrayList<Hen> kury = new ArrayList<>();
+    private static ArrayList<Cock> koguty = new ArrayList<>();
+    private static ArrayList<Fox> lisy = new ArrayList<>();
+    private static ArrayList<Dog> psy = new ArrayList<>();
     private static ArrayList<Egg> jaja = new ArrayList<>();
+    private static ArrayList<ArrayList<? extends Animal>> zwierzeta = new ArrayList<>();
     
 
-    public static ArrayList<hen> getHens(){
+    public static ArrayList<Hen> getHens(){
         return kury;
     }
 
-    public static ArrayList getCocks(){
+    public static ArrayList<Cock> getCocks(){
         return koguty;
     }
 
@@ -29,25 +30,37 @@ public class gameplay {
         return lisy;
     }
 
-    public static ArrayList getDogs(){
+    public static ArrayList<Dog> getDogs(){
         return psy;
     }
 
     public static ArrayList<Egg> getEggs(){
         return jaja;
     }
+    
+    public static boolean isDay(){
+        return isDay;
+    }
+
     public static int CurrentDay(){
         return Day;
     }
 
     public static void AddHen(){
-        hen newbie = new hen();
+        Hen newbie = new Hen();
         kury.add(newbie);
     }
     
     public static void AddHen(int HowMany){
         for(int i=0; i<HowMany; i++){
             AddHen();
+        }
+    }
+
+    public static void AddDog(int HowMany){
+        for(int i=0; i<HowMany; i++){
+            Dog newbie = new Dog();
+            psy.add(newbie);
         }
     }
 
@@ -71,7 +84,6 @@ public class gameplay {
         jaja.add(newbie);
     }
 
-
     public static void setTurnNumber(int number){
         TURY = number;
     }
@@ -85,7 +97,8 @@ public class gameplay {
     }
 
     public static void StartSymulation(){
-        while(Day<3){
+        CreateAnimalList();
+        while(Day<10){
             Day++;
             for(int i=0; i<getTurnNumber(); i++){
                 if(i>(int) TURY/2){
@@ -95,19 +108,29 @@ public class gameplay {
                     isDay = true;
                 }
                 System.out.println("\n" + ((isDay == true) ? "Dzien " : "Noc ") + Day + " Tura: "+(i+1));
-                for(hen kura: getHens()){
-                    kura.MakeAMove();
-                }
-                for(Fox lis: getFoxes()){
-                    lis.MakeAMove();
-                }
-                for(Iterator<Egg> iterator = getEggs().iterator(); iterator.hasNext();){
-                    Egg jajko = iterator.next();
-                    jajko.CountDaysToHatch(iterator);
+                
+                for(ArrayList<? extends Animal> Animals: zwierzeta){
+                    for(Animal zwierze: Animals){
+                        zwierze.MakeAMove(); 
+                    }
                 }
                 Map.ShowMap();
             }
+            for(Iterator<Egg> iterator = getEggs().iterator(); iterator.hasNext();){
+                Egg jajko = iterator.next();
+                jajko.CountDaysToHatch(iterator);
+            } 
+
         }
+    }
+
+    
+
+    private static void CreateAnimalList(){
+        zwierzeta.add(kury);
+        zwierzeta.add(lisy);
+        zwierzeta.add(psy);
+        //zwierzeta.add(koguty);
 
     }
 

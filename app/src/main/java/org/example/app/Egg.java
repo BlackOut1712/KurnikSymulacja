@@ -13,19 +13,20 @@ public class Egg {
 
     public void CountDaysToHatch(Iterator it){
         if(!isAlive){
-            gameplay.RemoveAnimal(it);
+            Gameplay.RemoveAnimal(it);
             return;
         }
 
         if(DaysTilHatch==0){
             Hatch(it);
+            return;
         }
         DaysTilHatch--;
     }
 
     private void Hatch(Iterator it){
-        gameplay.RemoveAnimal(it);
-        gameplay.AddHen();
-        System.out.println("Jajko wykluwa się.");
+        Gameplay.RemoveAnimal(it);
+        Gameplay.AddHen();
+        System.out.println("Jajko wykluwa sie.");
     }
 }

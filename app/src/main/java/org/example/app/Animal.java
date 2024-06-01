@@ -22,6 +22,12 @@ public abstract class Animal {
     public void setSign(char sign){
         this.sign = sign;
     }
+    public double HP(){
+        return this.HP;
+    }
+    public double maxHP(){
+        return this.maxHP;
+    }
 
     public char getSign(){
         return this.sign;
@@ -139,7 +145,7 @@ public abstract class Animal {
         if(this.HP<=0){
             this.HP = 0;
             this.isAlive = false;
-            gameplay.RemoveAnimal(it);
+            Gameplay.RemoveAnimal(it);
             Map.set(this.X, this.Y, 'x');
         }
     }
@@ -161,8 +167,9 @@ public abstract class Animal {
     public ArrayList<ArrayList<Integer>> checkSurroudings(int area){
 
         char AnimalToSeek = '\0';
-        if(this.sign == 'K') AnimalToSeek = 'L';
-        else if(this.sign == 'L') AnimalToSeek = 'K';
+        if(this instanceof Hen) AnimalToSeek = 'L';
+        else if(this instanceof Fox) AnimalToSeek = 'K';
+        else if(this instanceof Dog) AnimalToSeek = 'L';
 
         ArrayList<ArrayList<Integer>> Predators_Location = new ArrayList<>();
 
@@ -205,8 +212,8 @@ public abstract class Animal {
         ArrayList<ArrayList<Integer>> Surrouding = checkSurroudings();
         //Sprawdzamy czy w otoczeniu są drapieżniki
         if(Surrouding == null || Surrouding.size() == 0){
-            if(this.sign == 'K') System.out.println("Kura ("+this.X+","+this.Y+") nie ma przed czym uciekac.");
-            else if(this.sign == 'L') System.out.println("Lis ("+this.X+","+this.Y+") nie ma na co polowac.");
+            if(this instanceof Hen) System.out.println("Kura ("+this.X+","+this.Y+") nie ma przed czym uciekac.");
+            else if(this instanceof Fox) System.out.println("Lis ("+this.X+","+this.Y+") nie ma na co polowac.");
             return false;
         }
 
@@ -283,10 +290,10 @@ public abstract class Animal {
         Arrays.sort(decision);
 
         int n=-1;
-        if(this.sign == 'K'){
+        if(this instanceof Hen){
             n=0;
         }
-        else if(this.sign == 'L'){
+        else if(this instanceof Fox || this instanceof Dog){
             n= decision.length-1;
         }
 
@@ -315,9 +322,10 @@ public abstract class Animal {
                     n--;
                 }
             }
-        }while(n < decision.length || n<0);
+        }while(n < decision.length && n>=0);
 
         return true;
     }
 
+    public void MakeAMove(){}
 }

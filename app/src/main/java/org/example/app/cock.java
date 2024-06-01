@@ -1,5 +1,5 @@
 package org.example.app;
 
-public class cock extends Animal{
+public class Cock extends Animal{
     
 }
