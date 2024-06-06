@@ -84,6 +84,11 @@ public class Gameplay {
         jaja.add(newbie);
     }
 
+    public static void setDaysLimit(int number){
+        MaxDays = number;
+    }
+
+
     public static void setTurnNumber(int number){
         TURY = number;
     }
@@ -98,7 +103,7 @@ public class Gameplay {
 
     public static void StartSymulation(){
         CreateAnimalList();
-        while(Day<10){
+        while(Day<=MaxDays){
             Day++;
             for(int i=0; i<getTurnNumber(); i++){
                 if(i>(int) TURY/2){
