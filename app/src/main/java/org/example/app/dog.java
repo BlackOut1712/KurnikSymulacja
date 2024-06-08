@@ -1,13 +1,14 @@
 package org.example.app;
 
 public class Dog extends Fox{
+    public static final String sign = Map.YELLOW + "D" + Map.RESET;
     private boolean isResting = false;
     private Integer RestTurn = null;
 
     public Dog(){
         super(40, 100);
         this.setHP(200);
-        this.setSign('D');
+        this.setSign(sign);
         this.setVision(8);
     }
 

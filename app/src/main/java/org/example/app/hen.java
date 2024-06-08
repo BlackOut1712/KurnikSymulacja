@@ -2,13 +2,14 @@ package org.example.app;
 
 
 public class Hen extends Animal {
+    public static final String sign =Map.CYAN+"K"+Map.RESET;
     private int laidEggs = 0;
 
     public Hen(){
         super();
         this.setHP(60);
         this.setSpeed(1);
-        this.setSign('K');
+        this.setSign(sign);
         this.setVision(5);
         Map.set(this.X, this.Y, this.getSign());
     }

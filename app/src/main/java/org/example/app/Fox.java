@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;;
 
 public class Fox extends Animal{
+    public static final String sign = Map.RED+"L"+Map.RESET;
     private int numberOfPreys;
     private double min_damage;
     private double max_damage;
@@ -11,7 +12,7 @@ public class Fox extends Animal{
     public Fox(){
         super();
         this.setHP(100);
-        this.setSign('L');
+        this.setSign(sign);
         this.setVision(8);
         this.min_damage = 30;
         this.max_damage = 100;
@@ -20,7 +21,7 @@ public class Fox extends Animal{
     public Fox(double mdamage, double Mdamage){
         super();
         this.setHP(100);
-        this.setSign('L');
+        this.setSign(sign);
         this.setVision(8);
         this.min_damage = mdamage;
         this.max_damage = Mdamage;
@@ -67,8 +68,10 @@ public class Fox extends Animal{
     }   
 
     public void MakeAMove(){
+        for(int i=0; i<2; i++){
         if(!Hunt()){
             move();
+        }
         }
     }
 }

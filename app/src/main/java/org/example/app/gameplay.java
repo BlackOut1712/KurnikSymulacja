@@ -129,14 +129,11 @@ public class Gameplay {
         }
     }
 
-    
-
     private static void CreateAnimalList(){
         zwierzeta.add(kury);
         zwierzeta.add(lisy);
         zwierzeta.add(psy);
-        //zwierzeta.add(koguty);
-
+        zwierzeta.add(koguty);
     }
 
 }

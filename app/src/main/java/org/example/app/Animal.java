@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 
 public abstract class Animal {
-    private char sign;
+    private String sign;
     private int visual_field;
     public int X=2;
     public int Y=2;
@@ -19,7 +19,7 @@ public abstract class Animal {
         this.isAlive = true;
     }
 
-    public void setSign(char sign){
+    public void setSign(String sign){
         this.sign = sign;
     }
     public double HP(){
@@ -29,7 +29,7 @@ public abstract class Animal {
         return this.maxHP;
     }
 
-    public char getSign(){
+    public String getSign(){
         return this.sign;
     }
 
@@ -74,7 +74,7 @@ public abstract class Animal {
         if(!isAlive) return false;
         if(Map.checkIfFree(this.X-1, this.Y)){               //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Lewo.");
-            Map.set(this.X, this.Y, 'x');
+            Map.set(this.X, this.Y, "x");
             this.X-=1;
             Map.set(this.X, this.Y, sign);
             return true;
@@ -86,7 +86,7 @@ public abstract class Animal {
         if(!isAlive) return false;
         if(Map.checkIfFree(this.X+1, this.Y)){       //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Prawo.");
-            Map.set(this.X, this.Y, 'x');
+            Map.set(this.X, this.Y, "x");
             this.X +=1;
             Map.set(this.X, this.Y, sign);
             return true;
@@ -98,7 +98,7 @@ public abstract class Animal {
         if(!isAlive) return false;
         if(Map.checkIfFree(this.X, this.Y+1)){       //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w tył.");
-            Map.set(this.X, this.Y, 'x');
+            Map.set(this.X, this.Y, "x");
             this.Y+=1;
             Map.set(this.X, this.Y, sign);
             return true;
@@ -110,7 +110,7 @@ public abstract class Animal {
         if(!isAlive) return false;
         if(Map.checkIfFree(this.X, this.Y-1)){           //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w przód.");
-            Map.set(this.X, this.Y, 'x');
+            Map.set(this.X, this.Y, "x");
             this.Y-=1;
             Map.set(this.X, this.Y, sign);
             return true;
@@ -146,7 +146,7 @@ public abstract class Animal {
             this.HP = 0;
             this.isAlive = false;
             Gameplay.RemoveAnimal(it);
-            Map.set(this.X, this.Y, 'x');
+            Map.set(this.X, this.Y, "x");
         }
     }
 
@@ -166,10 +166,9 @@ public abstract class Animal {
 
     public ArrayList<ArrayList<Integer>> checkSurroudings(int area){
 
-        char AnimalToSeek = '\0';
-        if(this instanceof Hen) AnimalToSeek = 'L';
-        else if(this instanceof Fox) AnimalToSeek = 'K';
-        else if(this instanceof Dog) AnimalToSeek = 'L';
+        String AnimalToSeek = "\0";
+        if(this instanceof Hen || this instanceof Dog) AnimalToSeek = Fox.sign;
+        else if(this instanceof Fox) AnimalToSeek = Hen.sign;
 
         ArrayList<ArrayList<Integer>> Predators_Location = new ArrayList<>();
 
@@ -214,6 +213,7 @@ public abstract class Animal {
         if(Surrouding == null || Surrouding.size() == 0){
             if(this instanceof Hen) System.out.println("Kura ("+this.X+","+this.Y+") nie ma przed czym uciekac.");
             else if(this instanceof Fox) System.out.println("Lis ("+this.X+","+this.Y+") nie ma na co polowac.");
+            else if(this instanceof Dog) System.out.println("Pies ("+this.X+","+this.Y+") nie widzi żadnego zagrożenia");
             return false;
         }
 
@@ -315,10 +315,10 @@ public abstract class Animal {
                 break;    
             }
             else{
-                if(this.sign == 'K'){
+                if(this instanceof Hen){
                     n++;
                 }
-                else if(this.sign == 'L'){
+                else if(this instanceof Fox || this instanceof Dog){
                     n--;
                 }
             }
