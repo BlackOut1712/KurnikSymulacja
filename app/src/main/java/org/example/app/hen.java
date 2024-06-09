@@ -1,6 +1,5 @@
 package org.example.app;
 
-
 public class Hen extends Animal {
     public static final String sign =Map.CYAN+"K"+Map.RESET;
     private int laidEggs = 0;
@@ -25,7 +24,7 @@ public class Hen extends Animal {
     }
 
     public void MakeAMove(){
-        if(!RUN()){
+        if( Gameplay.isDay() ||!RUN()){
             double randomizer = Math.random();
             if(randomizer<=0.05){
                 LayAnEgg();

@@ -61,6 +61,21 @@ public class Gameplay {
     public static int CurrentDay(){
         return Day;
     }
+
+    private static void CheckIfDay(int i){
+        if(i>=(int) TURY/2){                                                                                     
+            isDay = false;
+            for(Fox Lis: getFoxes()){
+                Map.set(Lis.X, Lis.Y, Fox.sign);
+            }
+        }
+        else{
+            isDay = true;
+            for(Fox Lis: getFoxes()){
+                Map.set(Lis.X, Lis.Y, "x");
+            }
+        }
+    }
     
     public static int getTurnNumber(){
         return TURY;
@@ -112,12 +127,7 @@ public class Gameplay {
         while(Day<MaxDays){    
             Day++;                                                                                              //Rozpocznij dzień:
             for(int i=0; i<getTurnNumber(); i++){                                                                   //Przebieg tury:
-                if(i>=(int) TURY/2){                                                                                     // Dzien/noc?
-                    isDay = false;
-                }
-                else{
-                    isDay = true;
-                }
+                CheckIfDay(i);
                 System.out.println("\n" + ((isDay == true) ? "Dzien " : "Noc ") + Day + " Tura: "+(i+1));
     
                 Henhouse.checkIfOverLoaded();                                                                           //Sprawdz, czy kurnik nie jest przeładowany
@@ -139,7 +149,5 @@ public class Gameplay {
             
         }
     }
-
-
 
 }

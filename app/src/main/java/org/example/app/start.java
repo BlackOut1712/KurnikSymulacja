@@ -6,8 +6,6 @@ class start{
 
         Map.GenerateMap(30, 15);
 
-        
-
         Gameplay.AddDog(5);
         for(int i=0; i<100; i++){
             for(Dog pies: Gameplay.getDogs()){
@@ -15,7 +13,7 @@ class start{
             }
         }
         
-        Gameplay.AddHen(0);
+        Gameplay.AddHen(10);
         //Ustaw kury
         for(int i=0; i<100; i++){
             for(Hen kura: Gameplay.getHens()){
@@ -23,16 +21,16 @@ class start{
             }
         }
         
-        Gameplay.AddFox(0);
+        Gameplay.AddFox(4);
         //Ustaw lisy
         for(int i=0; i<10; i++){
             for(Fox lis: Gameplay.getFoxes()){
                 lis.move();
             }
         }
-        Gameplay.setDaysLimit(15);
-        Gameplay.setTurnNumber(4);
-        Henhouse.SetDisasterLevel(0.6);
+        Gameplay.setDaysLimit(30);
+        Gameplay.setTurnNumber(12);
+        Henhouse.SetDisasterLevel(0.5);
 
         Gameplay.StartSymulation();   
         
