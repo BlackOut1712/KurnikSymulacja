@@ -9,6 +9,7 @@ public class Dog extends Fox{
         super(40, 100);
         this.setHP(200);
         this.setSign(sign);
+        this.setSpeed(1.67);
         this.setVision(8);
     }
 
@@ -54,7 +55,7 @@ public class Dog extends Fox{
             }
             
             else{
-                if(!Hunt()){
+                if(!this.Hunt()){
                     move();
                 }
             }

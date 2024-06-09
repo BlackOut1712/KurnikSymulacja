@@ -6,16 +6,16 @@ class start{
 
         Map.GenerateMap(30, 15);
 
-        Gameplay.AddDog(2);
+        
 
+        Gameplay.AddDog(5);
         for(int i=0; i<100; i++){
             for(Dog pies: Gameplay.getDogs()){
                 pies.move();
             }
         }
         
-        Gameplay.AddHen(4);
-        
+        Gameplay.AddHen(0);
         //Ustaw kury
         for(int i=0; i<100; i++){
             for(Hen kura: Gameplay.getHens()){
@@ -23,36 +23,18 @@ class start{
             }
         }
         
-        Gameplay.AddFox(4);
-
+        Gameplay.AddFox(0);
         //Ustaw lisy
         for(int i=0; i<10; i++){
             for(Fox lis: Gameplay.getFoxes()){
                 lis.move();
             }
         }
+        Gameplay.setDaysLimit(15);
         Gameplay.setTurnNumber(4);
+        Henhouse.SetDisasterLevel(0.6);
 
-        Gameplay.StartSymulation();
-
-        /*Map.ShowMap();
-        for(int i=0; i<gameplay.getTurnNumber(); i++){
-            for(hen kura: gameplay.getHens()){
-                kura.MakeAMove();
-            }
-            for(Fox lis: gameplay.getFoxes()){
-                lis.MakeAMove();
-            } 
-            System.out.println("\n TURA: " + (i+1));
-            Map.ShowMap();
-        } */
-
-
+        Gameplay.StartSymulation();   
         
-        
-
-        
-        
-
     }
 }

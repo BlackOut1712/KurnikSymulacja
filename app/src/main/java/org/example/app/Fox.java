@@ -13,6 +13,7 @@ public class Fox extends Animal{
         super();
         this.setHP(100);
         this.setSign(sign);
+        this.setSpeed(1.75);
         this.setVision(8);
         this.min_damage = 30;
         this.max_damage = 100;
@@ -68,10 +69,8 @@ public class Fox extends Animal{
     }   
 
     public void MakeAMove(){
-        for(int i=0; i<2; i++){
         if(!Hunt()){
             move();
-        }
-        }
+        }   
     }
 }

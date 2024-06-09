@@ -12,133 +12,11 @@ public abstract class Animal {
     public int Y=2;
     private double maxHP;
     private double HP;
-    private double speed=1;
+    private double speed;
     private boolean isAlive;
 
     public Animal(){
         this.isAlive = true;
-    }
-
-    public void setSign(String sign){
-        this.sign = sign;
-    }
-    public double HP(){
-        return this.HP;
-    }
-    public double maxHP(){
-        return this.maxHP;
-    }
-
-    public String getSign(){
-        return this.sign;
-    }
-
-    public int move(){
-        if(!isAlive){
-            System.out.println("Corpses don't walk... usually...");
-            return -1;
-        }
-        
-        while(true){
-            double direction = Math.random();
-
-            if(direction>=0 && direction< 0.25){
-                if(moveLeft()){
-                    break;
-                }
-            }
-
-            else if(direction >= 0.25 && direction < 0.50){
-                if(moveRight()){
-                    break;
-                }
-            }
-
-            else if(direction >= 0.5 && direction < 0.75){
-                if(moveForward()){
-                    break;
-                }
-            }
-
-            else{
-                if(moveBack()){
-                    break;
-                }
-            }
-        }
-
-        return 0;
-    }
-
-    public boolean moveLeft(){
-        if(!isAlive) return false;
-        if(Map.checkIfFree(this.X-1, this.Y)){               //check if spot is free
-            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Lewo.");
-            Map.set(this.X, this.Y, "x");
-            this.X-=1;
-            Map.set(this.X, this.Y, sign);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean moveRight(){
-        if(!isAlive) return false;
-        if(Map.checkIfFree(this.X+1, this.Y)){       //check if spot is free
-            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Prawo.");
-            Map.set(this.X, this.Y, "x");
-            this.X +=1;
-            Map.set(this.X, this.Y, sign);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean moveBack(){
-        if(!isAlive) return false;
-        if(Map.checkIfFree(this.X, this.Y+1)){       //check if spot is free
-            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w tył.");
-            Map.set(this.X, this.Y, "x");
-            this.Y+=1;
-            Map.set(this.X, this.Y, sign);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean moveForward(){
-        if(!isAlive) return false;
-        if(Map.checkIfFree(this.X, this.Y-1)){           //check if spot is free
-            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w przód.");
-            Map.set(this.X, this.Y, "x");
-            this.Y-=1;
-            Map.set(this.X, this.Y, sign);
-            return true;
-        }
-        return false;
-    }
-
-    public void setHP(double HP){
-        if(!isAlive){
-            System.out.println("Cannot set HP to the dead animal.");
-            return;
-        }
-        this.maxHP=HP;
-        this.HP = HP;
-    }
-
-    public void setSpeed(double speed){
-        this.speed = speed;
-    }
-
-    public void setVision(int x){
-        this.visual_field = x;
-    }
-
-    public double getDamage(double damage, Iterator it){
-        this.HP -= damage;
-        checkIfDead(it);
-        return this.HP;
     }
 
     private void checkIfDead(Iterator it){
@@ -148,16 +26,6 @@ public abstract class Animal {
             Gameplay.RemoveAnimal(it);
             Map.set(this.X, this.Y, "x");
         }
-    }
-
-    public String getStats(){
-        return 
-        "\nRaport"+
-        "\nHP: "+this.HP+"/"+this.maxHP
-        +".\nSpeed: "+this.speed
-        +".\nStatus: " + ((this.isAlive) ? "ALIVE" : "DEAD")
-        +".\nPosition: ("+this.X+","+this.Y+").";
-                
     }
 
     public ArrayList<ArrayList<Integer>> checkSurroudings(){
@@ -190,6 +58,153 @@ public abstract class Animal {
         if(Predators_Location.size()!=0) return Predators_Location;
         return null;
     }
+
+    public String getSign(){
+        return this.sign;
+    }
+
+    public double getDamage(double damage, Iterator it){
+        this.HP -= damage;
+        checkIfDead(it);
+        return this.HP;
+    }
+    
+    public String getStats(){
+        return 
+        "\nRaport"+
+        "\nHP: "+this.HP+"/"+this.maxHP
+        +".\nSpeed: "+this.speed
+        +".\nStatus: " + ((this.isAlive) ? "ALIVE" : "DEAD")
+        +".\nPosition: ("+this.X+","+this.Y+").";
+                
+    }
+
+    public double getSpeed(){
+        return this.speed;
+    }
+
+    public double HP(){
+        return this.HP;
+    }
+
+    public int move(){
+        if(!isAlive){
+            System.out.println("Corpses don't walk... usually...");
+            return -1;
+        }
+        
+        for(double i = this.getSpeed(); i>0; i--){    
+            if(Math.random()<=i){
+                if(!(Map.checkIfFree(X-1, Y) || Map.checkIfFree(X+1, Y) || Map.checkIfFree(X, Y-1) || Map.checkIfFree(X, Y+1))){
+                    return -2;
+                }
+
+                while(true){
+                    double direction = Math.random();
+
+                    if(direction>=0 && direction< 0.25){
+                        if(moveLeft()){
+                            break;
+                        }
+                    }
+
+                    else if(direction >= 0.25 && direction < 0.50){
+                        if(moveRight()){
+                            break;
+                        }
+                    }
+
+                    else if(direction >= 0.5 && direction < 0.75){
+                        if(moveForward()){
+                            break;
+                        }
+                    }
+
+                    else{
+                        if(moveBack()){
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    private boolean moveLeft(){
+        if(!isAlive) return false;
+        if(Map.checkIfFree(this.X-1, this.Y)){               //check if spot is free
+            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Lewo.");
+            Map.set(this.X, this.Y, "x");
+            this.X-=1;
+            Map.set(this.X, this.Y, sign);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean moveRight(){
+        if(!isAlive) return false;
+        if(Map.checkIfFree(this.X+1, this.Y)){       //check if spot is free
+            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Prawo.");
+            Map.set(this.X, this.Y, "x");
+            this.X +=1;
+            Map.set(this.X, this.Y, sign);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean moveBack(){
+        if(!isAlive) return false;
+        if(Map.checkIfFree(this.X, this.Y+1)){       //check if spot is free
+            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w tył.");
+            Map.set(this.X, this.Y, "x");
+            this.Y+=1;
+            Map.set(this.X, this.Y, sign);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean moveForward(){
+        if(!isAlive) return false;
+        if(Map.checkIfFree(this.X, this.Y-1)){           //check if spot is free
+            //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w przód.");
+            Map.set(this.X, this.Y, "x");
+            this.Y-=1;
+            Map.set(this.X, this.Y, sign);
+            return true;
+        }
+        return false;
+    }
+    
+    public double maxHP(){
+        return this.maxHP;
+    }
+
+    public void MakeAMove(){}
+
+    public void setHP(double HP){
+        if(!isAlive){
+            System.out.println("Cannot set HP to the dead animal.");
+            return;
+        }
+        this.maxHP=HP;
+        this.HP = HP;
+    }
+
+    public void setSign(String sign){
+        this.sign = sign;
+    }
+
+    public void setSpeed(double speed){
+        this.speed = speed;
+    }
+
+    public void setVision(int x){
+        this.visual_field = x;
+    }
     
     public boolean RUN(){
         /* Dzielimy pole widzenia kury na 4 równe sektory (tworzymy układ współrzędnych o środku (0,0) w miejscu kury, a następnie dzielimy go prostymi y=x i y=-x):
@@ -212,8 +227,8 @@ public abstract class Animal {
         //Sprawdzamy czy w otoczeniu są drapieżniki
         if(Surrouding == null || Surrouding.size() == 0){
             if(this instanceof Hen) System.out.println("Kura ("+this.X+","+this.Y+") nie ma przed czym uciekac.");
-            else if(this instanceof Fox) System.out.println("Lis ("+this.X+","+this.Y+") nie ma na co polowac.");
-            else if(this instanceof Dog) System.out.println("Pies ("+this.X+","+this.Y+") nie widzi żadnego zagrożenia");
+            else if(this instanceof Dog) System.out.println("Pies ("+this.X+","+this.Y+") nie widzi zadnego zagrozenia");
+            else if(this instanceof Fox ) System.out.println("Lis ("+this.X+","+this.Y+") nie ma na co polowac.");
             return false;
         }
 
@@ -327,5 +342,5 @@ public abstract class Animal {
         return true;
     }
 
-    public void MakeAMove(){}
 }
+

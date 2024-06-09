@@ -17,6 +17,54 @@ public class Gameplay {
     private static ArrayList<Egg> jaja = new ArrayList<>();
     private static ArrayList<ArrayList<? extends Animal>> zwierzeta = new ArrayList<>();
     
+    public static void AddHen(){
+        Hen newbie = new Hen();
+        kury.add(newbie);
+    }
+    
+    public static void AddHen(int HowMany){
+        for(int i=0; i<HowMany; i++){
+            AddHen();
+        }
+    }
+
+    public static void AddDog(int HowMany){
+        for(int i=0; i<HowMany; i++){
+            Dog newbie = new Dog();
+            psy.add(newbie);
+        }
+    }
+
+    public static void AddFox(){
+        Fox newbie = new Fox();
+        lisy.add(newbie);
+    }
+
+    public static void AddFox(int HowMany){
+        for(int i=0; i<HowMany;i++){
+            AddFox();
+        }
+    }
+
+    public static void AddEgg(){
+        Egg newbie = new Egg(DaysTilHatch);
+        jaja.add(newbie);
+    }
+    
+    private static void CreateAnimalList(){
+        zwierzeta.add(kury);
+        zwierzeta.add(lisy);
+        zwierzeta.add(psy);
+        zwierzeta.add(koguty);
+    }
+
+    public static int CurrentDay(){
+        return Day;
+    }
+    
+    public static int getTurnNumber(){
+        return TURY;
+    }
 
     public static ArrayList<Hen> getHens(){
         return kury;
@@ -37,51 +85,13 @@ public class Gameplay {
     public static ArrayList<Egg> getEggs(){
         return jaja;
     }
-    
+
     public static boolean isDay(){
         return isDay;
     }
 
-    public static int CurrentDay(){
-        return Day;
-    }
-
-    public static void AddHen(){
-        Hen newbie = new Hen();
-        kury.add(newbie);
-    }
-    
-    public static void AddHen(int HowMany){
-        for(int i=0; i<HowMany; i++){
-            AddHen();
-        }
-    }
-
-    public static void AddDog(int HowMany){
-        for(int i=0; i<HowMany; i++){
-            Dog newbie = new Dog();
-            psy.add(newbie);
-        }
-    }
-
     public static void RemoveAnimal(Iterator it){
         it.remove();
-    }
-
-    public static void AddFox(){
-        Fox newbie = new Fox();
-        lisy.add(newbie);
-    }
-
-    public static void AddFox(int HowMany){
-        for(int i=0; i<HowMany;i++){
-            AddFox();
-        }
-    }
-
-    public static void AddEgg(){
-        Egg newbie = new Egg(DaysTilHatch);
-        jaja.add(newbie);
     }
 
     public static void setDaysLimit(int number){
@@ -97,43 +107,39 @@ public class Gameplay {
         DaysTilHatch = number;
     }
 
-    public static int getTurnNumber(){
-        return TURY;
-    }
-
     public static void StartSymulation(){
         CreateAnimalList();
-        while(Day<=MaxDays){
-            Day++;
-            for(int i=0; i<getTurnNumber(); i++){
-                if(i>(int) TURY/2){
+        while(Day<MaxDays){    
+            Day++;                                                                                              //Rozpocznij dzień:
+            for(int i=0; i<getTurnNumber(); i++){                                                                   //Przebieg tury:
+                if(i>=(int) TURY/2){                                                                                     // Dzien/noc?
                     isDay = false;
                 }
                 else{
                     isDay = true;
                 }
                 System.out.println("\n" + ((isDay == true) ? "Dzien " : "Noc ") + Day + " Tura: "+(i+1));
+    
+                Henhouse.checkIfOverLoaded();                                                                           //Sprawdz, czy kurnik nie jest przeładowany
                 
-                for(ArrayList<? extends Animal> Animals: zwierzeta){
+                Map.ShowMap();                                                                                          //Wyswietl mape (? - przed czy po jajkach?)
+
+                for(ArrayList<? extends Animal> Animals: zwierzeta){                                                    //Zwierzeta - wykonujcie ruch
                     for(Animal zwierze: Animals){
                         zwierze.MakeAMove(); 
                     }
                 }
-                Map.ShowMap();
+                Farmer.MakeAMove();                                                                                     //Farmer - wykonaj ruch
+                
             }
-            for(Iterator<Egg> iterator = getEggs().iterator(); iterator.hasNext();){
+            for(Iterator<Egg> iterator = getEggs().iterator(); iterator.hasNext();){                                    //Jaja - ruch
                 Egg jajko = iterator.next();
                 jajko.CountDaysToHatch(iterator);
-            } 
-
+            }
+            
         }
     }
 
-    private static void CreateAnimalList(){
-        zwierzeta.add(kury);
-        zwierzeta.add(lisy);
-        zwierzeta.add(psy);
-        zwierzeta.add(koguty);
-    }
+
 
 }

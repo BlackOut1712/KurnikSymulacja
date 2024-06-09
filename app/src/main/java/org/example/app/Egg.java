@@ -2,7 +2,7 @@ package org.example.app;
 
 import java.util.Iterator;
 
-public class Egg {
+public class Egg{
     private boolean isAlive;
     private int DaysTilHatch;
 

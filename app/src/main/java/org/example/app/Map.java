@@ -28,6 +28,7 @@ public class Map {
 
     private static void InitializeMap(){
         map = new String[Ysize][Xsize];
+        Henhouse.setCapacity((int) ((Map.getXsize() * Map.getYsize())/4));
     }
 
     private static void FulfillMap(){
