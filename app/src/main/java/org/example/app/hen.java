@@ -10,7 +10,6 @@ public class Hen extends Animal {
         this.setSpeed(1.33);
         this.setSign(sign);
         this.setVision(5);
-        Map.set(this.X, this.Y, this.getSign());
     }
 
     public String getStats(){

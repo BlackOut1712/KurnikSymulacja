@@ -34,9 +34,10 @@ public abstract class Animal {
 
     public ArrayList<ArrayList<Integer>> checkSurroudings(int area){
 
-        String AnimalToSeek = "\0";
-        if(this instanceof Hen || this instanceof Dog) AnimalToSeek = Fox.sign;
-        else if(this instanceof Fox) AnimalToSeek = Hen.sign;
+        String AnimalToSeek = "\0", AnimalToSeek2 = "\0";
+        if(this instanceof Hen || this instanceof Dog || (this instanceof Cock && area == 1)) AnimalToSeek = Fox.sign;
+        else if(this instanceof Fox || (this instanceof Cock && area == this.visual_field)) AnimalToSeek = Hen.sign;
+        if(this instanceof Fox && !(this instanceof Dog)) AnimalToSeek2 = Cock.sign;
 
         ArrayList<ArrayList<Integer>> Predators_Location = new ArrayList<>();
 
@@ -46,7 +47,7 @@ public abstract class Animal {
             for(int X= Math.max(this.X-area, 0); X< Math.min(this.X+area, Map.getXsize()); X++){                              
                 double distance = Math.sqrt( Math.pow(X-this.X,2) + Math.pow(Y-this.Y,2));          //Policz odległość Euklidesową
                 if(distance<=area){                                                         
-                    if(Map.get(X,Y) == AnimalToSeek){                                              //Jeśli w polu widzenia znajduje się lis,
+                    if(Map.get(X,Y) == AnimalToSeek || Map.get(X,Y) == AnimalToSeek2){                                              //Jeśli w polu widzenia znajduje się lis,
                         ArrayList<Integer> predator = new ArrayList<>();
                         predator.add(X);
                         predator.add(Y);
@@ -229,6 +230,7 @@ public abstract class Animal {
             if(this instanceof Hen) System.out.println("Kura ("+this.X+","+this.Y+") nie ma przed czym uciekac.");
             else if(this instanceof Dog) System.out.println("Pies ("+this.X+","+this.Y+") nie widzi zadnego zagrozenia");
             else if(this instanceof Fox ) System.out.println("Lis ("+this.X+","+this.Y+") nie ma na co polowac.");
+            else if(this instanceof Cock) System.out.println("Kogut ("+this.X+","+this.Y+") nie widzi zadnej z kur.");
             return false;
         }
 
@@ -305,7 +307,7 @@ public abstract class Animal {
         Arrays.sort(decision);
 
         int n=-1;
-        if(this instanceof Hen){
+        if(this instanceof Hen || this instanceof Cock){
             n=0;
         }
         else if(this instanceof Fox || this instanceof Dog){
@@ -330,7 +332,7 @@ public abstract class Animal {
                 break;    
             }
             else{
-                if(this instanceof Hen){
+                if(this instanceof Hen || this instanceof Cock){
                     n++;
                 }
                 else if(this instanceof Fox || this instanceof Dog){

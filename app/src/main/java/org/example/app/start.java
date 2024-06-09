@@ -4,16 +4,26 @@ package org.example.app;
 class start{
     public static void main(String[] args){
 
-        Map.GenerateMap(30, 15);
+        Map.GenerateMap(24, 12);
 
-        Gameplay.AddDog(5);
+
+        Gameplay.AddCock(1);
+        //Ustaw Koguty       
+        for(int i=0; i<100; i++){
+            for(Cock kogut: Gameplay.getCocks()){
+                kogut.move();
+            }
+        } 
+
+        Gameplay.AddDog(2);
+        //Ustaw psy
         for(int i=0; i<100; i++){
             for(Dog pies: Gameplay.getDogs()){
                 pies.move();
             }
         }
         
-        Gameplay.AddHen(10);
+        Gameplay.AddHen(6);
         //Ustaw kury
         for(int i=0; i<100; i++){
             for(Hen kura: Gameplay.getHens()){
@@ -28,7 +38,7 @@ class start{
                 lis.move();
             }
         }
-        Gameplay.setDaysLimit(30);
+        Gameplay.setDaysLimit(5);
         Gameplay.setTurnNumber(12);
         Henhouse.SetDisasterLevel(0.5);
 

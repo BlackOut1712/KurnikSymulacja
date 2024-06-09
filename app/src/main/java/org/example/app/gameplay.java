@@ -17,6 +17,17 @@ public class Gameplay {
     private static ArrayList<Egg> jaja = new ArrayList<>();
     private static ArrayList<ArrayList<? extends Animal>> zwierzeta = new ArrayList<>();
     
+    public static void AddCock(){
+        Cock newbie = new Cock();
+        koguty.add(newbie);
+    }
+
+    public static void AddCock(int HowMany){
+        for(int i=0; i<HowMany; i++){
+            AddCock();
+        }
+    }
+
     public static void AddHen(){
         Hen newbie = new Hen();
         kury.add(newbie);
@@ -52,10 +63,11 @@ public class Gameplay {
     }
     
     private static void CreateAnimalList(){
-        zwierzeta.add(kury);
         zwierzeta.add(lisy);
-        zwierzeta.add(psy);
+        zwierzeta.add(kury);
         zwierzeta.add(koguty);
+        zwierzeta.add(psy);
+        
     }
 
     public static int CurrentDay(){
