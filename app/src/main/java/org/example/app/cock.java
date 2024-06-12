@@ -51,10 +51,11 @@ public class Cock extends Animal{
                         }
 
                         if(Map.checkIfFree(Nowy_X, Nowy_Y)){              //Jeśli można odepchnąć lisa (i nie wyleci poza mapę) to to zrób, jeśli nie, zmniejsz siłę pchnięcia o 1
-                            Map.set(SzukanyLis.X, SzukanyLis.Y, "x");
+                            Map.set(SzukanyLis.X, SzukanyLis.Y, Map.DEFAULT_SIGN);
                             SzukanyLis.X = Nowy_X;
                             SzukanyLis.Y = Nowy_Y;
                             Map.set(SzukanyLis.X, SzukanyLis.Y, Fox.sign);          //Zastapienie znaku
+                            SzukanyLis.Stun();                                      //Ogłuszenie lisa.
                             System.out.println("Kogut ("+this.X+","+this.Y+") odpycha lisa z pola("+X_lisa+","+Y_lisa+") na pole ("+SzukanyLis.X+","+SzukanyLis.Y+").");
                             pushedFoxes++;
                             break;

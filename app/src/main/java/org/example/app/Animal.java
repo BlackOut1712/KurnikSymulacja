@@ -24,7 +24,7 @@ public abstract class Animal {
             this.HP = 0;
             this.isAlive = false;
             Gameplay.RemoveAnimal(it);
-            Map.set(this.X, this.Y, "x");
+            Map.set(this.X, this.Y, Map.DEFAULT_SIGN);
         }
     }
 
@@ -37,6 +37,7 @@ public abstract class Animal {
         String AnimalToSeek = "\0", AnimalToSeek2 = "\0";
         if(this instanceof Hen || this instanceof Dog || (this instanceof Cock && area == 1)) AnimalToSeek = Fox.sign;
         else if(this instanceof Fox || (this instanceof Cock && area == this.visual_field)) AnimalToSeek = Hen.sign;
+        
         if(this instanceof Fox && !(this instanceof Dog)) AnimalToSeek2 = Cock.sign;
 
         ArrayList<ArrayList<Integer>> Predators_Location = new ArrayList<>();
@@ -136,7 +137,7 @@ public abstract class Animal {
         if(!isAlive) return false;
         if(Map.checkIfFree(this.X-1, this.Y)){               //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Lewo.");
-            Map.set(this.X, this.Y, "x");
+            Map.set(this.X, this.Y, Map.DEFAULT_SIGN);
             this.X-=1;
             Map.set(this.X, this.Y, sign);
             return true;
@@ -148,7 +149,7 @@ public abstract class Animal {
         if(!isAlive) return false;
         if(Map.checkIfFree(this.X+1, this.Y)){       //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w Prawo.");
-            Map.set(this.X, this.Y, "x");
+            Map.set(this.X, this.Y, Map.DEFAULT_SIGN);
             this.X +=1;
             Map.set(this.X, this.Y, sign);
             return true;
@@ -160,7 +161,7 @@ public abstract class Animal {
         if(!isAlive) return false;
         if(Map.checkIfFree(this.X, this.Y+1)){       //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w tył.");
-            Map.set(this.X, this.Y, "x");
+            Map.set(this.X, this.Y, Map.DEFAULT_SIGN);
             this.Y+=1;
             Map.set(this.X, this.Y, sign);
             return true;
@@ -172,7 +173,7 @@ public abstract class Animal {
         if(!isAlive) return false;
         if(Map.checkIfFree(this.X, this.Y-1)){           //check if spot is free
             //System.out.println("Zwierze "+this.getSign() + " ("+this.X+","+this.Y+") rusza sie w przód.");
-            Map.set(this.X, this.Y, "x");
+            Map.set(this.X, this.Y, Map.DEFAULT_SIGN);
             this.Y-=1;
             Map.set(this.X, this.Y, sign);
             return true;

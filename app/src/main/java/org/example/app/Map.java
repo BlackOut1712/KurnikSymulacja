@@ -8,6 +8,7 @@ public class Map {
     public static final String YELLOW = "\u001B[33m";
     public static final String CYAN = "\u001B[36m";
     public static final String BLUE = "\u001B[34m";
+    public static final String DEFAULT_SIGN = "-";
 
 
     private static int Ysize, Xsize;
@@ -34,7 +35,7 @@ public class Map {
     private static void FulfillMap(){
         for(int y=0; y<Ysize; y++){
             for(int x=0; x<Xsize; x++){
-                map[y][x] = "x";
+                map[y][x] = DEFAULT_SIGN;
             }
         }
     }
@@ -68,7 +69,7 @@ public class Map {
     }
 
     public static boolean checkIfFree(int x, int y){
-        if(x < 0 || y<0 || x >= Map.getXsize() || y >= Map.getYsize() || Map.get(x,y) !="x"){
+        if(x < 0 || y<0 || x >= Map.getXsize() || y >= Map.getYsize() || Map.get(x,y) != DEFAULT_SIGN){
             return false;
         }
         else return true;

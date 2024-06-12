@@ -5,7 +5,7 @@ import java.util.Iterator;
 public class Farmer {
     private static boolean isAwake = false;
     private static int FoxesKilled = 0;
-    private static double ChanceToAwake;
+    private static double ChanceToAwake = 0.05;
 
     public static boolean isAwake(){
         return isAwake;
@@ -19,7 +19,7 @@ public class Farmer {
             Fox CurrentFox = it.next();
             if(index == pickedFox){
                 CurrentFox.getDamage(999,it);
-                System.out.println("Lis ("+CurrentFox.X+","+CurrentFox.Y+") został zastrzelony.");
+                System.out.println("Lis ("+CurrentFox.X+","+CurrentFox.Y+") zostal zastrzelony.");
                 FoxesKilled++;
                 break;
             }
@@ -28,7 +28,7 @@ public class Farmer {
 
     public static void MakeAMove(){
         if(Gameplay.isDay() == false && Math.random() < ChanceToAwake){
-            System.out.println("Farmer wstał - będzie strzał!");
+            System.out.println("Farmer wstal - bedzie strzal!");
             shoot();
         }
     }

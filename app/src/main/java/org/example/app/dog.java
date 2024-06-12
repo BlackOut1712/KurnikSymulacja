@@ -10,7 +10,7 @@ public class Dog extends Fox{
         this.setHP(200);
         this.setSign(sign);
         this.setSpeed(1.67);
-        this.setVision(8);
+        this.setVision(20);
     }
 
     private void Rest(){

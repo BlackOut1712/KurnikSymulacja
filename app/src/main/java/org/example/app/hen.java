@@ -17,16 +17,19 @@ public class Hen extends Animal {
         return super.getStats()+"\nLaid Eggs: "+laidEggs+".";
     }
 
-    public void LayAnEgg(){
-        Gameplay.AddEgg();
-        laidEggs++;
+    public boolean LayAnEgg(){
+        if(Gameplay.getCocks().size()!=0){
+            Gameplay.AddEgg();
+            laidEggs++;
+            return true;
+        }
+        return false;
     }
 
     public void MakeAMove(){
-        if( Gameplay.isDay() ||!RUN()){
+        if( Gameplay.isDay() || !RUN()){
             double randomizer = Math.random();
-            if(randomizer<=0.05){
-                LayAnEgg();
+            if(randomizer<=0.05 && LayAnEgg()){
                 System.out.println("Kura ("+this.X+","+this.Y+") znosi jajo");
             }
             else{

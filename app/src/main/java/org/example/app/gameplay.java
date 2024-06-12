@@ -63,9 +63,9 @@ public class Gameplay {
     }
     
     private static void CreateAnimalList(){
+        zwierzeta.add(koguty);
         zwierzeta.add(lisy);
         zwierzeta.add(kury);
-        zwierzeta.add(koguty);
         zwierzeta.add(psy);
         
     }
@@ -84,11 +84,34 @@ public class Gameplay {
         else{
             isDay = true;
             for(Fox Lis: getFoxes()){
-                Map.set(Lis.X, Lis.Y, "x");
+                Map.set(Lis.X, Lis.Y, Map.DEFAULT_SIGN);
             }
         }
     }
     
+    public static String DetermineSpecies(Animal zwierze){
+        String species = "<<blad>>";
+        if(zwierze instanceof Dog) species = "Pies";
+        else if(zwierze instanceof Fox) species = "Lis";
+        else if(zwierze instanceof Hen) species = "Kura";
+        else if(zwierze instanceof Cock) species = "Kogut";
+
+        return species;
+    }
+
+    private static void FoxReproduction(){
+        int newFoxes = (int) Fox.getAnimalsEaten()/5;
+        if(newFoxes>0){
+            AddFox(newFoxes);
+            System.out.println("Populacja lisow zwieksza sie. Liczba nowych lisow: "+newFoxes);
+            Fox.setAnimalsEaten(Fox.getAnimalsEaten()%5);
+        }
+    }
+
+    public static ArrayList<ArrayList<? extends Animal>> getAnimals(){
+        return zwierzeta;
+    }
+
     public static int getTurnNumber(){
         return TURY;
     }
@@ -121,10 +144,20 @@ public class Gameplay {
         it.remove();
     }
 
+    private static void RandomizeAnimalsPosition(){
+        CreateAnimalList();
+        for(int i=0; i<100; i++){
+            for(ArrayList<? extends Animal> rodzaj: zwierzeta){
+                for(Animal zwierze: rodzaj){
+                    zwierze.move();
+                }
+            }
+        }
+    }
+
     public static void setDaysLimit(int number){
         MaxDays = number;
     }
-
 
     public static void setTurnNumber(int number){
         TURY = number;
@@ -135,8 +168,8 @@ public class Gameplay {
     }
 
     public static void StartSymulation(){
-        CreateAnimalList();
-        while(Day<MaxDays){    
+        RandomizeAnimalsPosition();
+        while(Day<MaxDays /*&& lisy.size() != 0 && ((kury.size() !=0 || jaja.size()!=0) && koguty.size() !=0)*/){       //Kontynuuj dopóki: 1) nie przekroczysz limitu dni 2) Lisy żyją 3) Koguty żyją (wraz z kurami/jajami)    
             Day++;                                                                                              //Rozpocznij dzień:
             for(int i=0; i<getTurnNumber(); i++){                                                                   //Przebieg tury:
                 CheckIfDay(i);
@@ -151,13 +184,14 @@ public class Gameplay {
                         zwierze.MakeAMove(); 
                     }
                 }
-                Farmer.MakeAMove();                                                                                     //Farmer - wykonaj ruch
+                //Farmer.MakeAMove();                                                                                     //Farmer - wykonaj ruch
                 
             }
             for(Iterator<Egg> iterator = getEggs().iterator(); iterator.hasNext();){                                    //Jaja - ruch
                 Egg jajko = iterator.next();
                 jajko.CountDaysToHatch(iterator);
             }
+            FoxReproduction();                                                                                          //Sprawdz, czy populacja lisów się zwiększyła.
             
         }
     }

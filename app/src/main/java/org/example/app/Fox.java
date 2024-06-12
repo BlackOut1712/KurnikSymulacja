@@ -5,9 +5,12 @@ import java.util.Iterator;
 
 public class Fox extends Animal{
     public static final String sign = Map.RED+"L"+Map.RESET;
+    private static int AnimalsEatenClock = 0;
     private int numberOfPreys;
     private double min_damage;
     private double max_damage;
+    private boolean isStunned = false;
+    private boolean isAttacked = false;
 
     public Fox(){
         super();
@@ -34,23 +37,27 @@ public class Fox extends Animal{
     } 
 
     private void attack(){
-        ArrayList<ArrayList<Integer>> Hens_in_attack_range = checkSurroudings(1);
-        if(Hens_in_attack_range == null || Hens_in_attack_range.size() == 0){
+        ArrayList<ArrayList<Integer>> Preys_in_attack_range = checkSurroudings(1);
+        if(Preys_in_attack_range == null || Preys_in_attack_range.size() == 0){
             return;     //nothing to attack
         }
         
-        int random_index = (int) (Math.random() * Hens_in_attack_range.size()); //Obranie na cel losowej kury, gdy lis jest obok kilku kur.
+        int random_index = (int) (Math.random() * Preys_in_attack_range.size()); //Obranie na cel losowej kury, gdy lis jest obok kilku kur.
         
-        int prey_X = Hens_in_attack_range.get(random_index).get(0);
-        int prey_Y = Hens_in_attack_range.get(random_index).get(1);
-
+        int prey_X = Preys_in_attack_range.get(random_index).get(0);
+        int prey_Y = Preys_in_attack_range.get(random_index).get(1);
         
-        for(Iterator<Hen> iterator = Gameplay.getHens().iterator(); iterator.hasNext();){
-            Hen kura = iterator.next();
-            if(kura.X == prey_X && kura.Y == prey_Y){
-                if(kura.getDamage(CountDamage(), iterator)<=0){
-                    numberOfPreys++;
-                    System.out.println("Kura ("+kura.X +","+kura.Y+") nie zyje.");
+        for(ArrayList<? extends Animal> rodzaj_zwierzecia: Gameplay.getAnimals()){
+            for(Iterator<? extends Animal> iterator = rodzaj_zwierzecia.iterator(); iterator.hasNext();){
+                Animal zwierze = iterator.next();
+                if(zwierze.X == prey_X && zwierze.Y == prey_Y){
+                    if(zwierze.getDamage(CountDamage(), iterator)<=0){
+                        numberOfPreys++;
+                        if(!(this instanceof Dog)){
+                            AnimalsEatenClock++;
+                        }
+                        System.out.println(Gameplay.DetermineSpecies(zwierze) + " ("+zwierze.X +","+zwierze.Y+") nie zyje.");
+                    }
                 }
             }
         }
@@ -70,9 +77,28 @@ public class Fox extends Animal{
 
     public void MakeAMove(){
         if(!Gameplay.isDay()){
-            if(!Hunt()){
-                move();
-            }   
+            if(!isStunned){
+                if(!Hunt()){
+                    //move();
+                }
+            }
+            else{
+                isStunned = false;
+            }
         }
     }
+
+    public void Stun(){
+        isStunned = true;
+    }
+
+    public static int getAnimalsEaten(){
+        return AnimalsEatenClock;
+    }
+
+    public static void setAnimalsEaten(int number){
+        AnimalsEatenClock = number;
+    }
+
+
 }
