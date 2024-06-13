@@ -36,16 +36,17 @@ public abstract class Animal {
 
         String AnimalToSeek = "\0", AnimalToSeek2 = "\0";
         if(this instanceof Hen || this instanceof Dog || (this instanceof Cock && area == 1)) AnimalToSeek = Fox.sign;
-        else if(this instanceof Fox || (this instanceof Cock && area == this.visual_field)) AnimalToSeek = Hen.sign;
+        else if((this instanceof Fox && ((Fox) this).isAttacked()==false) || (this instanceof Cock && area == this.visual_field)) AnimalToSeek = Hen.sign;
+        else if(this instanceof Fox && ((Fox) this).isAttacked()) AnimalToSeek = Dog.sign;
         
-        if(this instanceof Fox && !(this instanceof Dog)) AnimalToSeek2 = Cock.sign;
+        if(this instanceof Fox && !(this instanceof Dog) && ((Fox)this).isAttacked() == false) AnimalToSeek2 = Cock.sign;
 
         ArrayList<ArrayList<Integer>> Predators_Location = new ArrayList<>();
 
         //Sprawdzamy kwadrat od [X(lub Y)-polewidzenia] do [X(lub Y)+polewidzenia] i sprawdzamy czy dane pole nalezy do okręgu pola widzenia.
         // Y jest 0 (dla this.Y-visual_field < 0) lub this.Y-visual_field (dla this.Y-visual_field>=0), kontynuuj do pozycji This.Y+visual_field lub konca tablicy, to samo dla X
-        for(int Y = Math.max(this.Y-area, 0); Y<Math.min(this.Y+area,Map.getYsize()); Y++){               
-            for(int X= Math.max(this.X-area, 0); X< Math.min(this.X+area, Map.getXsize()); X++){                              
+        for(int Y = Math.max(this.Y-area, 0); Y<=Math.min(this.Y+area,Map.getYsize()-1); Y++){               
+            for(int X= Math.max(this.X-area, 0); X<= Math.min(this.X+area, Map.getXsize()-1); X++){                              
                 double distance = Math.sqrt( Math.pow(X-this.X,2) + Math.pow(Y-this.Y,2));          //Policz odległość Euklidesową
                 if(distance<=area){                                                         
                     if(Map.get(X,Y) == AnimalToSeek || Map.get(X,Y) == AnimalToSeek2){                                              //Jeśli w polu widzenia znajduje się lis,
@@ -57,8 +58,10 @@ public abstract class Animal {
                 }
             }
         }
-        if(Predators_Location.size()!=0) return Predators_Location;
-        return null;
+        if(Predators_Location.size() == 0){
+            return null;
+        }
+        return Predators_Location;
     }
 
     public String getSign(){

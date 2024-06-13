@@ -24,17 +24,17 @@ public class Fox extends Animal{
 
     public Fox(double mdamage, double Mdamage){
         super();
-        this.setHP(100);
+        this.setHP(150);
         this.setSign(sign);
         this.setVision(8);
         this.min_damage = mdamage;
         this.max_damage = Mdamage;
     }
 
-    private void attack(){
+    private boolean attack(){
         ArrayList<ArrayList<Integer>> Preys_in_attack_range = checkSurroudings(1);
         if(Preys_in_attack_range == null || Preys_in_attack_range.size() == 0){
-            return;
+            return false;
         }
         
         int random_index = (int) (Math.random() * Preys_in_attack_range.size()); //Obranie na cel losowej kury, gdy lis jest obok kilku kur.
@@ -46,6 +46,9 @@ public class Fox extends Animal{
             for(Iterator<? extends Animal> iterator = rodzaj_zwierzecia.iterator(); iterator.hasNext();){
                 Animal zwierze = iterator.next();
                 if(zwierze.X == prey_X && zwierze.Y == prey_Y){
+                    if(this instanceof Dog){
+                        ((Fox) zwierze).setAttacked();
+                    }
                     if(zwierze.getDamage(countDamage(), iterator)<=0){
                         numberOfPreys++;
                         if(!(this instanceof Dog)){
@@ -53,9 +56,11 @@ public class Fox extends Animal{
                         }
                         System.out.println(Gameplay.determineSpecies(zwierze) + " ("+zwierze.X +","+zwierze.Y+") nie zyje.");
                     }
+                    break;
                 }
             }
         }
+        return true;
     }
 
     private double countDamage(){
@@ -67,8 +72,16 @@ public class Fox extends Animal{
         return AnimalsEatenClock;
     }
 
+    public boolean isAttacked(){
+        return isAttacked;
+    }
+
     public boolean Hunt(){
-        if(this.run()){
+        if(this.attack()){      //Atak sąsiada
+            return true;
+        }
+
+        if(this.run()){         //Jeśli sąsiada nie ma w pobliżu, przemieszczenie się i atak.
             this.attack();
             return true;
         }
@@ -87,6 +100,9 @@ public class Fox extends Animal{
         if(!Hunt()){
             move();
         }
+        if(isAttacked == true){
+            isAttacked = false;
+        }
     }
 
     public int preys(){
@@ -95,6 +111,10 @@ public class Fox extends Animal{
 
     public static void setAnimalsEaten(int number){
         AnimalsEatenClock = number;
+    }
+
+    public void setAttacked(){
+        isAttacked = true;
     }
 
     public void stun(){

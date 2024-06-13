@@ -91,7 +91,7 @@ public class Gameplay {
 
     private static boolean checkSymulationDestination(){
         //Sprawdz czy symulacja ma sens - nie przekroczono limitu dni, czy żyją lisy oraz koguty wraz z kurami/jajami.
-        if(Day<MaxDays /*&& lisy.size() != 0 && ((kury.size() !=0 || jaja.size()!=0) && koguty.size() !=0)*/){
+        if(Day<MaxDays && lisy.size() != 0 && ((kury.size() !=0 || jaja.size()!=0) && koguty.size() !=0)){
             return true;
         }
         return false;
