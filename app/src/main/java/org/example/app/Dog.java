@@ -3,7 +3,7 @@ package org.example.app;
 public class Dog extends Fox{
     public static final String sign = Map.YELLOW + "D" + Map.RESET;
     private boolean isResting = false;
-    private Integer RestTurn = null;
+    private Integer restTurn = null;
 
     public Dog(){
         super(40, 100);
@@ -13,52 +13,46 @@ public class Dog extends Fox{
         this.setVision(20);
     }
 
-    private void Rest(){
+    private void rest(){
         this.setHP(this.HP()+0.3*this.maxHP());
         this.isResting = true;
-        this.RestTurn=0;
-        RestClock();
+        this.restTurn=0;
+        restClock();
     }
 
-    private void RestClock(){
-        if(this.RestTurn ==3){
-            this.RestTurn = null;
+    private void restClock(){
+        if(this.restTurn ==3){
+            this.restTurn = null;
             this.isResting = false;
             return;
         }
-        this.RestTurn+=1;
+        this.restTurn+=1;
     }
 
-    public void MakeAMove(){
+    public void makeAMove(){
         if(this.isResting){
-            RestClock();
+            restClock();
+            return;
         }
-        else{
-            double randomizer = Math.random();
-            if(Gameplay.isDay()){      //Podczas dnia, pies może odpocząć.
-                if(this.HP() < 0.3*this.maxHP()){           //Jeśli pies ma mało życia, zwiększona szansa na odpoczynek
-                    if(randomizer<=0.6){
-                        Rest();
-                    }
-                    else{
-                        move();
-                    }
-                }
-                else{
-                    if(randomizer<=0.2){
-                        Rest();
-                    }
-                    else{
-                        move();
-                    }
-                }
+        double randomizer = Math.random();
+        double chanceToRest = 0.2;
+        if(this.HP() < 0.3*this.maxHP()){           //Jeśli pies ma mało życia, zwiększona szansa na odpoczynek
+            chanceToRest = 0.6;
+        }
+
+        if(Gameplay.isDay()){      
+            if(randomizer<=chanceToRest){
+                rest();
             }
-            
             else{
-                if(!this.Hunt()){
-                    move();
-                }
+                move();
+            }    
+        }           
+        else{
+            if(!this.Hunt()){
+                move();
             }
         }
     }
 }
+

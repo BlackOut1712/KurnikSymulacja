@@ -7,8 +7,23 @@ public class Farmer {
     private static int FoxesKilled = 0;
     private static double ChanceToAwake = 0.05;
 
+    public static int FoxesKilled(){
+        return FoxesKilled;
+    }
+
     public static boolean isAwake(){
         return isAwake;
+    }
+    
+    public static void makeAMove(){
+        if(Gameplay.isDay() == false && Math.random() < ChanceToAwake){
+            System.out.println("Farmer wstal - bedzie strzal!");
+            shoot();
+        }
+    }
+
+    public static void setChanceToAwake(double chance){
+        ChanceToAwake = chance;
     }
 
     public static void shoot(){
@@ -24,20 +39,5 @@ public class Farmer {
                 break;
             }
         }
-    }
-
-    public static void MakeAMove(){
-        if(Gameplay.isDay() == false && Math.random() < ChanceToAwake){
-            System.out.println("Farmer wstal - bedzie strzal!");
-            shoot();
-        }
-    }
-
-    public static int FoxesKilled(){
-        return FoxesKilled;
-    }
-
-    public static void SetChanceToAwake(double chance){
-        ChanceToAwake = chance;
     }
 }

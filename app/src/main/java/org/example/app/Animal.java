@@ -23,7 +23,7 @@ public abstract class Animal {
         if(this.HP<=0){
             this.HP = 0;
             this.isAlive = false;
-            Gameplay.RemoveAnimal(it);
+            Gameplay.removeAnimal(it);
             Map.set(this.X, this.Y, Map.DEFAULT_SIGN);
         }
     }
@@ -185,7 +185,7 @@ public abstract class Animal {
         return this.maxHP;
     }
 
-    public void MakeAMove(){}
+    public void makeAMove(){}
 
     public void setHP(double HP){
         if(!isAlive){
@@ -208,7 +208,7 @@ public abstract class Animal {
         this.visual_field = x;
     }
     
-    public boolean RUN(){
+    public boolean run(){
         /* Dzielimy pole widzenia kury na 4 równe sektory (tworzymy układ współrzędnych o środku (0,0) w miejscu kury, a następnie dzielimy go prostymi y=x i y=-x):
                ____
              /\ 1 /\

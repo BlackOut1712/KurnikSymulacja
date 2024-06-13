@@ -11,22 +11,22 @@ public class Egg{
         this.isAlive = true;
     }
 
-    public void CountDaysToHatch(Iterator it){
+    public void countDaysToHatch(Iterator it){
         if(!isAlive){
-            Gameplay.RemoveAnimal(it);
+            Gameplay.removeAnimal(it);
             return;
         }
 
         if(DaysTilHatch==0){
-            Hatch(it);
+            hatch(it);
             return;
         }
         DaysTilHatch--;
     }
 
-    private void Hatch(Iterator it){
-        Gameplay.RemoveAnimal(it);
-        Gameplay.AddHen();
+    private void hatch(Iterator it){
+        Gameplay.removeAnimal(it);
+        Gameplay.addHen();
         System.out.println("Jajko wykluwa sie.");
     }
 }

@@ -14,25 +14,14 @@ public class Map {
     private static int Ysize, Xsize;
     private static String[][] map;
 
-    public static int GenerateMap(int width, int height){
-        if(map != null){
-            System.out.println("Map already exists.");
-            return -1;
+    public static boolean checkIfFree(int x, int y){
+        if(x < 0 || y<0 || x >= Map.getXsize() || y >= Map.getYsize() || Map.get(x,y) != DEFAULT_SIGN){
+            return false;
         }
-        Xsize = width;
-        Ysize = height;
-        InitializeMap();
-        FulfillMap();
-        return 0;
+        return true;
     }
 
-
-    private static void InitializeMap(){
-        map = new String[Ysize][Xsize];
-        Henhouse.setCapacity((int) ((Map.getXsize() * Map.getYsize())/4));
-    }
-
-    private static void FulfillMap(){
+    private static void fulfillMap(){
         for(int y=0; y<Ysize; y++){
             for(int x=0; x<Xsize; x++){
                 map[y][x] = DEFAULT_SIGN;
@@ -40,14 +29,16 @@ public class Map {
         }
     }
 
-    public static void ShowMap(){
-        System.out.print("\n");
-        for(int y=0; y<Ysize; y++){
-            for(int x=0; x<Xsize; x++){
-                System.out.print(map[y][x]);
-            }
-            System.out.print("\n");
+    public static int generateMap(int width, int height){
+        if(map != null){
+            System.out.println("Map already exists.");
+            return -1;
         }
+        Xsize = width;
+        Ysize = height;
+        initializeMap();
+        fulfillMap();
+        return 0;
     }
 
     public static String get(int x, int y){
@@ -55,9 +46,9 @@ public class Map {
         return map[y][x];
     }
 
-    public static boolean set(int x, int y, String New){
-        map[y][x] = New;
-        return true;
+    private static void initializeMap(){
+        map = new String[Ysize][Xsize];
+        Henhouse.setCapacity((int) ((Map.getXsize() * Map.getYsize())/4));
     }
 
     public static int getXsize(){
@@ -68,10 +59,18 @@ public class Map {
         return Ysize;
     }
 
-    public static boolean checkIfFree(int x, int y){
-        if(x < 0 || y<0 || x >= Map.getXsize() || y >= Map.getYsize() || Map.get(x,y) != DEFAULT_SIGN){
-            return false;
+    public static boolean set(int x, int y, String New){
+        map[y][x] = New;
+        return true;
+    }
+
+    public static void show(){
+        System.out.print("\n");
+        for(int y=0; y<Ysize; y++){
+            for(int x=0; x<Xsize; x++){
+                System.out.print(map[y][x]);
+            }
+            System.out.print("\n");
         }
-        else return true;
     }
 }

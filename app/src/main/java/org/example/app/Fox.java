@@ -31,15 +31,10 @@ public class Fox extends Animal{
         this.max_damage = Mdamage;
     }
 
-    private double CountDamage(){
-        double damage = Math.random()*(this.max_damage - this.min_damage)+min_damage;
-        return damage;
-    } 
-
     private void attack(){
         ArrayList<ArrayList<Integer>> Preys_in_attack_range = checkSurroudings(1);
         if(Preys_in_attack_range == null || Preys_in_attack_range.size() == 0){
-            return;     //nothing to attack
+            return;
         }
         
         int random_index = (int) (Math.random() * Preys_in_attack_range.size()); //Obranie na cel losowej kury, gdy lis jest obok kilku kur.
@@ -51,54 +46,62 @@ public class Fox extends Animal{
             for(Iterator<? extends Animal> iterator = rodzaj_zwierzecia.iterator(); iterator.hasNext();){
                 Animal zwierze = iterator.next();
                 if(zwierze.X == prey_X && zwierze.Y == prey_Y){
-                    if(zwierze.getDamage(CountDamage(), iterator)<=0){
+                    if(zwierze.getDamage(countDamage(), iterator)<=0){
                         numberOfPreys++;
                         if(!(this instanceof Dog)){
                             AnimalsEatenClock++;
                         }
-                        System.out.println(Gameplay.DetermineSpecies(zwierze) + " ("+zwierze.X +","+zwierze.Y+") nie zyje.");
+                        System.out.println(Gameplay.determineSpecies(zwierze) + " ("+zwierze.X +","+zwierze.Y+") nie zyje.");
                     }
                 }
             }
         }
-
-    }
-    public int preys(){
-        return numberOfPreys;
     }
 
-    public boolean Hunt(){
-        if(this.RUN()){
-            this.attack();
-            return true;
-        }
-        return false;
-    }   
-
-    public void MakeAMove(){
-        if(!Gameplay.isDay()){
-            if(!isStunned){
-                if(!Hunt()){
-                    //move();
-                }
-            }
-            else{
-                isStunned = false;
-            }
-        }
-    }
-
-    public void Stun(){
-        isStunned = true;
-    }
+    private double countDamage(){
+        double damage = Math.random()*(this.max_damage - this.min_damage)+min_damage;
+        return damage;
+    } 
 
     public static int getAnimalsEaten(){
         return AnimalsEatenClock;
     }
 
+    public boolean Hunt(){
+        if(this.run()){
+            this.attack();
+            return true;
+        }
+        return false;
+    }  
+
+    public void makeAMove(){
+        if(Gameplay.isDay()){
+            return;
+        }
+        if(isStunned){
+            isStunned = false;
+            return;
+        }
+
+        if(!Hunt()){
+            move();
+        }
+    }
+
+    public int preys(){
+        return numberOfPreys;
+    }
+
     public static void setAnimalsEaten(int number){
         AnimalsEatenClock = number;
     }
+
+    public void stun(){
+        isStunned = true;
+    }
+
+
 
 
 }
