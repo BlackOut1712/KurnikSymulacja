@@ -90,8 +90,8 @@ public class Gameplay {
     }
 
     private static boolean checkSymulationDestination(){
-        //Sprawdz czy symulacja ma sens - nie przekroczono limitu dni, czy żyją lisy oraz koguty wraz z kurami/jajami.
-        if(Day<MaxDays && lisy.size() != 0 && ((kury.size() !=0 || jaja.size()!=0) && koguty.size() !=0)){
+        //Sprawdz czy dalsza symulacja ma sens - nie przekroczono limitu dni, czy żyją lisy oraz koguty wraz z kurami/jajami.
+        if(Day<MaxDays && lisy.size() != 0 && ((kury.size() !=0 || jaja.size()!=0) /*&& koguty.size() !=0*/)){
             return true;
         }
         return false;
@@ -168,6 +168,23 @@ public class Gameplay {
         }
     }
 
+    private static void raport(){
+        String raport = "-";
+
+        if(getFoxes().size() == 0){
+            raport = "Kury wygrywaja! Populacja lisow wymarla. "; 
+        }
+        else if(getHens().size() == 0 && getEggs().size() == 0){
+            raport = "Lisy wygrywaja! Populacja kur (w tym jaj) wymarla. ";
+        }
+        else if(Day > MaxDays){
+            raport = "Minal wskazany czas symulacji. ";
+        }
+
+        raport = raport + "\nStan kurnika: \n"+getHens().size()+" kur \n"+getCocks().size()+" kogutow \n" + getEggs().size() + " jaj \n" + getDogs().size() + " psow. \nPopulacja lisow: " + getFoxes().size();
+        System.out.println(raport);
+    }
+
     public static void setDaysLimit(int number){
         MaxDays = number;
     }
@@ -204,6 +221,8 @@ public class Gameplay {
             }
             foxReproduction();                                                                                          //Sprawdz, czy populacja lisów się zwiększyła.        
         }
+
+        raport();
     }
 
 
