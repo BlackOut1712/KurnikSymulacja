@@ -12,10 +12,10 @@ public class Research {
         Gameplay.setLogSetting(false);
         Gameplay.setVisualisation(false);
         try{
-            FileWriter results = new FileWriter("Results.txt");
+            FileWriter results = new FileWriter("Results2.txt");
             results.write("Winner;CocksNumber;HensNumber;DogsNumber;FoxesNumber\n");
             try{
-                File file = new File("DaneDoBadan.txt");
+                File file = new File("DaneDoBadan2.txt");
                 Scanner fileReader = new Scanner(file);
                 fileReader.nextLine(); //pominiecie linijki etykiet
                 int nr_parametrow = 1;
@@ -60,6 +60,7 @@ public class Research {
         Gameplay.addHen(Integer.parseInt(parameters[6]));
         Gameplay.addDog(Integer.parseInt(parameters[7]));
         Gameplay.addFox(Integer.parseInt(parameters[8]));
+        Cock.setPushingForce(Integer.parseInt(parameters[9]));
     }
 
 }

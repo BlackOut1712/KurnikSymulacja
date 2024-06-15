@@ -1,12 +1,13 @@
 package org.example.app;
 
+import java.net.http.HttpResponse.PushPromiseHandler;
 import java.util.ArrayList;
 
 public class Cock extends Animal{
     public static final String sign = Map.BLUE+"C"+Map.RESET;
 
     private int pushedFoxes = 0;
-    private int pushingForce=2;
+    private static int pushingForce;
 
     public Cock(){
         super();
@@ -76,5 +77,9 @@ public class Cock extends Animal{
             }
         }       
         return true;
+    }
+
+    public static void setPushingForce(int force){
+        pushingForce = force;
     }
 }

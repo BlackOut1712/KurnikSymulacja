@@ -185,7 +185,8 @@ public class Gameplay {
         }
 
         raport = raport + "\nStan kurnika: \n"+getHens().size()+" kur \n"+getCocks().size()+" kogutow \n" + getEggs().size() + " jaj \n" + getDogs().size()
-                + " psow. \nPopulacja lisow: " + getFoxes().size() +"\nZastrzelone przez farmera: "+Farmer.foxesKilled();
+                + " psow. \nPopulacja lisow: " + getFoxes().size() +"\nZastrzelone przez farmera: "+Farmer.foxesKilled() +"\nCzas symulacji: "+Day +" dni.";
+        
         
         if(Visualisation){
             System.out.println(raport);               
@@ -197,12 +198,16 @@ public class Gameplay {
     }
 
     public static void reset(){
-        for(ArrayList<? extends Animal> rodzaj: zwierzeta){
-            rodzaj.clear();
-        }
+        zwierzeta.clear();
+        kury.clear();
+        koguty.clear();
+        lisy.clear();
+        psy.clear();
         jaja.clear();
         Farmer.reset();
         Map.reset();
+
+        Day = 0;
     }
 
     public static void setDaysLimit(int number){
@@ -231,7 +236,7 @@ public class Gameplay {
 
     public static void startSymulation(){
         createAnimalList();
-        while(checkSymulationDestination()){     
+        while(checkSymulationDestination()){    
             Farmer.enableToMove();     
             Day++;                                                                                                  //Rozpocznij dzień:
             for(int i=0; i<getTurnNumber(); i++){                                                                   //Przebieg tury:                 
