@@ -48,7 +48,7 @@ public class Map {
 
     private static void initializeMap(){
         map = new String[Ysize][Xsize];
-        Henhouse.setCapacity((int) ((Map.getXsize() * Map.getYsize())/4));
+        Henhouse.setCapacity((int) ((Xsize*Ysize)/4));
     }
 
     public static int getXsize(){
@@ -59,12 +59,18 @@ public class Map {
         return Ysize;
     }
 
+    public static void reset(){
+        map = null;
+    }
     public static boolean set(int x, int y, String New){
         map[y][x] = New;
         return true;
     }
 
     public static void show(){
+        if(!Gameplay.getVisualisation()){
+            return;
+        }
         System.out.print("\n");
         for(int y=0; y<Ysize; y++){
             for(int x=0; x<Xsize; x++){

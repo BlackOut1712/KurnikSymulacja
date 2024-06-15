@@ -3,23 +3,32 @@ package org.example.app;
 import java.util.Iterator;
 
 public class Farmer {
-    private static boolean isAwake = false;
     private static int FoxesKilled = 0;
-    private static double ChanceToAwake = 0.05;
+    private static double ChanceToAwake;
+    private static boolean alreadyMoved = false;
 
-    public static int FoxesKilled(){
-        return FoxesKilled;
+    public static void enableToMove(){
+        alreadyMoved = false;
     }
 
-    public static boolean isAwake(){
-        return isAwake;
+    public static int foxesKilled(){
+        return FoxesKilled;
     }
     
     public static void makeAMove(){
-        if(Gameplay.isDay() == false && Math.random() < ChanceToAwake){
-            System.out.println("Farmer wstal - bedzie strzal!");
-            shoot();
+        if(alreadyMoved){
+            return;
         }
+        if(Gameplay.isDay() == false && Math.random() < ChanceToAwake && Gameplay.getFoxes().size() !=0){
+            if(Gameplay.getVisualisation()) System.out.println("Farmer wstal - bedzie strzal!");
+            shoot();
+            alreadyMoved = true;
+        }
+    }
+
+    public static void reset(){
+        FoxesKilled = 0;
+        alreadyMoved = false;
     }
 
     public static void setChanceToAwake(double chance){
@@ -34,7 +43,7 @@ public class Farmer {
             Fox CurrentFox = it.next();
             if(index == pickedFox){
                 CurrentFox.getDamage(999,it);
-                System.out.println("Lis ("+CurrentFox.X+","+CurrentFox.Y+") zostal zastrzelony.");
+                if(Gameplay.getVisualisation()) System.out.println("Lis ("+CurrentFox.X+","+CurrentFox.Y+") zostal zastrzelony.");
                 FoxesKilled++;
                 break;
             }

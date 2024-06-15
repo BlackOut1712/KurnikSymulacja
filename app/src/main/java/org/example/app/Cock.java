@@ -11,6 +11,7 @@ public class Cock extends Animal{
     public Cock(){
         super();
         this.setHP(200);
+        Map.set(this.X, this.Y, sign);
         this.setSpeed(1.4);
         this.setSign(sign);
         this.setVision(4);
@@ -65,7 +66,7 @@ public class Cock extends Animal{
                         SzukanyLis.Y = Nowy_Y;
                         Map.set(SzukanyLis.X, SzukanyLis.Y, Fox.sign);          //Zastapienie znaku
                         SzukanyLis.stun();                                      //Ogłuszenie lisa.
-                        System.out.println("Kogut ("+this.X+","+this.Y+") odpycha lisa z pola("+X_lisa+","+Y_lisa+") na pole ("+SzukanyLis.X+","+SzukanyLis.Y+").");
+                        if(Gameplay.getLogsSetting()) System.out.println("Kogut ("+this.X+","+this.Y+") odpycha lisa z pola("+X_lisa+","+Y_lisa+") na pole ("+SzukanyLis.X+","+SzukanyLis.Y+").");
                         pushedFoxes++;
                         break;
                     }

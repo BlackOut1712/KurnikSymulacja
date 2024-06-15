@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class Gameplay {
-    private static int TURY;
+    private static int TURY = 24;
     private static int DaysTilHatch=3;
     private static int Day = 0;
     private static int MaxDays;
     private static boolean isDay;
+    private static String Winner;
+    private static boolean Visualisation = true;
+    private static boolean Logs = true;
     
     private static ArrayList<Hen> kury = new ArrayList<>();
     private static ArrayList<Cock> koguty = new ArrayList<>();
@@ -62,7 +65,7 @@ public class Gameplay {
         jaja.add(newbie);
     }
     
-    private static void CreateAnimalList(){
+    private static void createAnimalList(){
         zwierzeta.add(koguty);
         zwierzeta.add(lisy);
         zwierzeta.add(kury);
@@ -111,7 +114,7 @@ public class Gameplay {
         int newFoxes = (int) Fox.getAnimalsEaten()/5;
         if(newFoxes>0){
             addFox(newFoxes);
-            System.out.println("Populacja lisow zwieksza sie. Liczba nowych lisow: "+newFoxes);
+            if(Logs) System.out.println("Populacja lisow zwieksza sie. Liczba nowych lisow: "+newFoxes);
             Fox.setAnimalsEaten(Fox.getAnimalsEaten()%5);
         }
     }
@@ -144,53 +147,82 @@ public class Gameplay {
         return jaja;
     }
 
+    public static boolean getLogsSetting(){
+        return Logs;
+    }
+
+    public static String getWinner(){
+        return Winner;
+    }
+
+    public static boolean getVisualisation(){
+        return Visualisation;
+    }
+
     public static boolean isDay(){
         return isDay;
     }
 
     private static void printTitle(int i){
+        if(!Gameplay.getVisualisation()){
+            return;
+        }
         checkIfDay(i);
         System.out.println("\n" + ((isDay == true) ? "Dzien " : "Noc ") + Day + " Tura: "+(i+1));
+    }
+
+    private static void raport(){
+        String raport = "Minal wskazany czas symulacji.";
+        setWinner("Draw");
+
+        if(getFoxes().size() == 0 && (getHens().size() !=0 || getEggs().size() !=0)){
+            raport = "Kury wygrywaja! Populacja lisow wymarla. ";
+            setWinner("Henhouse");
+        }
+        else if(getHens().size() == 0 && getEggs().size() == 0){
+            raport = "Lisy wygrywaja! Populacja kur (w tym jaj) wymarla. ";
+            setWinner("Foxes");
+        }
+
+        raport = raport + "\nStan kurnika: \n"+getHens().size()+" kur \n"+getCocks().size()+" kogutow \n" + getEggs().size() + " jaj \n" + getDogs().size()
+                + " psow. \nPopulacja lisow: " + getFoxes().size() +"\nZastrzelone przez farmera: "+Farmer.foxesKilled();
+        
+        if(Visualisation){
+            System.out.println(raport);               
+        }
     }
 
     public static void removeAnimal(Iterator it){
         it.remove();
     }
 
-    private static void randomizeAnimalsPosition(){
-        CreateAnimalList();
-        for(int i=0; i<100; i++){
-            for(ArrayList<? extends Animal> rodzaj: zwierzeta){
-                for(Animal zwierze: rodzaj){
-                    zwierze.move();
-                }
-            }
+    public static void reset(){
+        for(ArrayList<? extends Animal> rodzaj: zwierzeta){
+            rodzaj.clear();
         }
-    }
-
-    private static void raport(){
-        String raport = "-";
-
-        if(getFoxes().size() == 0){
-            raport = "Kury wygrywaja! Populacja lisow wymarla. "; 
-        }
-        else if(getHens().size() == 0 && getEggs().size() == 0){
-            raport = "Lisy wygrywaja! Populacja kur (w tym jaj) wymarla. ";
-        }
-        else if(Day > MaxDays){
-            raport = "Minal wskazany czas symulacji. ";
-        }
-
-        raport = raport + "\nStan kurnika: \n"+getHens().size()+" kur \n"+getCocks().size()+" kogutow \n" + getEggs().size() + " jaj \n" + getDogs().size() + " psow. \nPopulacja lisow: " + getFoxes().size();
-        System.out.println(raport);
+        jaja.clear();
+        Farmer.reset();
+        Map.reset();
     }
 
     public static void setDaysLimit(int number){
         MaxDays = number;
     }
 
+    public static void setLogSetting(boolean option){
+        Logs = option;
+    }
+
     public static void setTurnNumber(int number){
         TURY = number;
+    }
+
+    private static void setWinner(String winner){
+        Winner = winner;
+    }
+
+    public static void setVisualisation(boolean X){
+        Visualisation = X;
     }
 
     public static void setDaysToHatchAnEgg(int number){
@@ -198,21 +230,20 @@ public class Gameplay {
     }
 
     public static void startSymulation(){
-        randomizeAnimalsPosition();
-
-        while(checkSymulationDestination()){          
+        createAnimalList();
+        while(checkSymulationDestination()){     
+            Farmer.enableToMove();     
             Day++;                                                                                                  //Rozpocznij dzień:
-            for(int i=0; i<getTurnNumber(); i++){                                                                   //Przebieg tury:
-                printTitle(i);                 
+            for(int i=0; i<getTurnNumber(); i++){                                                                   //Przebieg tury:                 
                 Henhouse.checkIfOverLoaded();                                                                        //Sprawdz, czy kurnik nie jest przeładowany
+                printTitle(i);
                 Map.show();                                                                                          //Wyswietl mape
-
                 for(ArrayList<? extends Animal> Animals: zwierzeta){                                                   //Zwierzeta - wykonujcie ruch
                     for(Animal zwierze: Animals){
                         zwierze.makeAMove(); 
                     }
                 }
-                //Farmer.makeAMove();                                                                                   //Farmer - wykonaj ruch
+                Farmer.makeAMove();                                                                                   //Farmer - wykonaj ruch
                 
             }
             for(Iterator<Egg> iterator = getEggs().iterator(); iterator.hasNext();){                                    //Jaja - ruch
@@ -221,7 +252,7 @@ public class Gameplay {
             }
             foxReproduction();                                                                                          //Sprawdz, czy populacja lisów się zwiększyła.        
         }
-
+        Map.show();
         raport();
     }
 

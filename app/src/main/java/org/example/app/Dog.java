@@ -7,6 +7,7 @@ public class Dog extends Fox{
 
     public Dog(){
         super(40, 100);
+        Map.set(this.X, this.Y, sign);
         this.setHP(200);
         this.setSign(sign);
         this.setSpeed(1.67);

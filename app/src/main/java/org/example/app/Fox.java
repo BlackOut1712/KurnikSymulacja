@@ -14,6 +14,7 @@ public class Fox extends Animal{
 
     public Fox(){
         super();
+        Map.set(this.X, this.Y, sign);
         this.setHP(100);
         this.setSign(sign);
         this.setSpeed(2.5);
@@ -54,7 +55,7 @@ public class Fox extends Animal{
                         if(!(this instanceof Dog)){
                             AnimalsEatenClock++;
                         }
-                        System.out.println(Gameplay.determineSpecies(zwierze) + " ("+zwierze.X +","+zwierze.Y+") nie zyje.");
+                        if(Gameplay.getLogsSetting()) System.out.println(Gameplay.determineSpecies(zwierze) + " ("+zwierze.X +","+zwierze.Y+") nie zyje.");
                     }
                     break;
                 }

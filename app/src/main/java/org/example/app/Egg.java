@@ -27,6 +27,6 @@ public class Egg{
     private void hatch(Iterator it){
         Gameplay.removeAnimal(it);
         Gameplay.addHen();
-        System.out.println("Jajko wykluwa sie.");
+        if(Gameplay.getLogsSetting()) System.out.println("Jajko wykluwa sie.");
     }
 }

@@ -8,8 +8,8 @@ import java.util.Iterator;
 public abstract class Animal {
     private String sign;
     private int visual_field;
-    public int X=2;
-    public int Y=2;
+    public int X;
+    public int Y;
     private double maxHP;
     private double HP;
     private double speed;
@@ -17,6 +17,13 @@ public abstract class Animal {
 
     public Animal(){
         this.isAlive = true;
+        int posX=-1, posY=-1;
+        do{
+        posX = (int) (Math.random() * Map.getXsize());
+        posY = (int) (Math.random() * Map.getYsize());
+        }while(!Map.checkIfFree(posX, posY));
+        X = posX;
+        Y = posY;
     }
 
     private void checkIfDead(Iterator it){
@@ -230,7 +237,8 @@ public abstract class Animal {
 
         ArrayList<ArrayList<Integer>> Surrouding = checkSurroudings();
         //Sprawdzamy czy w otoczeniu są drapieżniki
-        if(Surrouding == null || Surrouding.size() == 0){
+        if((Surrouding == null || Surrouding.size() == 0)){
+            if(!Gameplay.getLogsSetting()) return false;
             if(this instanceof Hen) System.out.println("Kura ("+this.X+","+this.Y+") nie ma przed czym uciekac.");
             else if(this instanceof Dog) System.out.println("Pies ("+this.X+","+this.Y+") nie widzi zadnego zagrozenia");
             else if(this instanceof Fox ) System.out.println("Lis ("+this.X+","+this.Y+") nie ma na co polowac.");

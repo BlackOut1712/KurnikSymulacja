@@ -6,6 +6,7 @@ public class Hen extends Animal {
 
     public Hen(){
         super();
+        Map.set(this.X, this.Y, sign);
         this.setHP(60);
         this.setSpeed(1.33);
         this.setSign(sign);
@@ -30,7 +31,7 @@ public class Hen extends Animal {
         if( Gameplay.isDay() || !run()){
             double randomizer = Math.random();
             if(randomizer<=0.05 && layAnEgg()){
-                System.out.println("Kura ("+this.X+","+this.Y+") znosi jajo");
+                if(Gameplay.getLogsSetting()) System.out.println("Kura ("+this.X+","+this.Y+") znosi jajo");
             }
             else{
                 move();
