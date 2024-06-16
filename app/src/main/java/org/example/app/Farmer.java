@@ -23,10 +23,12 @@ public class Farmer {
             if(Gameplay.getVisualisation()) System.out.println("Farmer wstal - bedzie strzal!");
             shoot();
             alreadyMoved = true;
+            /* Farmer może strzelać tylko raz na noc. Po oddaniu strzału, zablokuj jego możliwość wykonania ruchu */
         }
     }
 
     public static void reset(){
+        /*  Funkcja reset() powstała dla klasy Research, by resetowac wszystkie parametry tej klasy po każdej z symulacji, podczas badań. */
         FoxesKilled = 0;
         alreadyMoved = false;
     }
@@ -36,6 +38,8 @@ public class Farmer {
     }
 
     public static void shoot(){
+        /*  Funkcja shoot() odpowiada za strzelanie do lisów w nocy. Losuje obiekt klasy Lis z listy wszystkich lisów, a następnie zadaje mu duże obrażenia)*/
+
         int pickedFox = (int) (Math.random() * Gameplay.getFoxes().size());
         int index = 0;
         

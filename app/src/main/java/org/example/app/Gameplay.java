@@ -21,6 +21,8 @@ public class Gameplay {
     private static ArrayList<ArrayList<? extends Animal>> zwierzeta = new ArrayList<>();
     
     public static void addCock(){
+        /* Funkcja addCock() dodaje elemnt klasy Cock */
+
         Cock newbie = new Cock();
         koguty.add(newbie);
     }
@@ -32,6 +34,7 @@ public class Gameplay {
     }
 
     public static void addHen(){
+        /* Funkcja addHen() dodaje element klasy Hen */
         Hen newbie = new Hen();
         kury.add(newbie);
     }
@@ -43,6 +46,7 @@ public class Gameplay {
     }
 
     public static void addDog(int HowMany){
+        /* Funkcja addDog() dodaje, podana jako "HowMany", liczbe elementow klasy Dog*/
         for(int i=0; i<HowMany; i++){
             Dog newbie = new Dog();
             psy.add(newbie);
@@ -50,6 +54,7 @@ public class Gameplay {
     }
 
     public static void addFox(){
+        /* Funkcja addFox() dodaje element klasy Fox */
         Fox newbie = new Fox();
         lisy.add(newbie);
     }
@@ -61,11 +66,16 @@ public class Gameplay {
     }
 
     public static void addEgg(){
+        /* Funkcja addEgg() dodaje elemnt klasy Egg */
         Egg newbie = new Egg(DaysTilHatch);
         jaja.add(newbie);
     }
     
     private static void createAnimalList(){
+        /* Funkcja createAnimalList() tworzy listę ze wszystkimi obiektami dziedziczącymi
+         * po klasie Animal (w celu ułatwienia wywoływania funkcji MakeAMove() dla każdego z nich).
+         * Zawiera także kolejność rodzajów zwierząt wykonujących ruch.
+         */
         zwierzeta.add(koguty);
         zwierzeta.add(lisy);
         zwierzeta.add(kury);
@@ -78,6 +88,9 @@ public class Gameplay {
     }
 
     private static void checkIfDay(int i){
+        /* Funkcja checkIfDay() sprawdza czy podczas i-tej tury (podawanej jako parametr) trwa dzien czy noc.
+         * Jeśli dzień - zabiera z mapy wszystkie lisy, jeśli noc - przywraca je na mape.
+         */
         if(i>=(int) TURY/2){                                                                                     
             isDay = false;
             for(Fox Lis: getFoxes()){
@@ -93,14 +106,17 @@ public class Gameplay {
     }
 
     private static boolean checkSymulationDestination(){
-        //Sprawdz czy dalsza symulacja ma sens - nie przekroczono limitu dni, czy żyją lisy oraz koguty wraz z kurami/jajami.
-        if(Day<MaxDays && lisy.size() != 0 && ((kury.size() !=0 || jaja.size()!=0) /*&& koguty.size() !=0*/)){
+        /*Funkcja checkSymulationDestination sprawdza czy dalsza symulacja ma sens - nie przekroczono limitu dni, czy żyją lisy oraz kury/jaja.
+         * Zwraca true, jeśli dalsza symulacja ma sens, lub false w przeciwnym wypadku.
+         */
+        if(Day<MaxDays && lisy.size() != 0 && ((kury.size() !=0 || jaja.size()!=0))){
             return true;
         }
         return false;
     }
     
     public static String determineSpecies(Animal zwierze){
+        /* Funkcja determineSpecies() określa rodzaj zwierzecia Animal danego jako parametr */
         String species = "<<blad>>";
         if(zwierze instanceof Dog) species = "Pies";
         else if(zwierze instanceof Fox) species = "Lis";
@@ -111,6 +127,7 @@ public class Gameplay {
     }
 
     private static void foxReproduction(){
+        /* Funkcja foxReproduction() odpowiada za rozrost populacji lisów. Co piątą kurę, dodaje nowego Lisa*/
         int newFoxes = (int) Fox.getAnimalsEaten()/5;
         if(newFoxes>0){
             addFox(newFoxes);
@@ -164,6 +181,10 @@ public class Gameplay {
     }
 
     private static void printTitle(int i){
+        /*  funkcja printTitle() jest czescia wizualizacji i odpowiada za wydrukowanie
+         *  numeru obecnego dnia i tury (podawanej jako parametr i). Jeśli wizualizacja jest
+         *  wyłączona, funkcja nic nie robi.
+         */
         if(!Gameplay.getVisualisation()){
             return;
         }
@@ -172,6 +193,10 @@ public class Gameplay {
     }
 
     private static void raport(){
+        /*  Funkcja raport() odpowiada za podsumowanie symulacji po jej zakończeniu.
+         *  Drukuje jej wynik oraz ustala zwycięzce. Pokazuje także końcowy stan kurnika,
+         *  ile trwała symulacja oraz ile zwierząt zostało zastrzelonych przez farmera.
+         */
         String raport = "Minal wskazany czas symulacji.";
         setWinner("Draw");
 
@@ -188,16 +213,30 @@ public class Gameplay {
                 + " psow. \nPopulacja lisow: " + getFoxes().size() +"\nZastrzelone przez farmera: "+Farmer.foxesKilled() +"\nCzas symulacji: "+Day +" dni.";
         
         
-        if(Visualisation){
-            System.out.println(raport);               
+        System.out.println(raport);               
+        
+    }
+
+    private static void regenerateAll(){
+        /* Funkcja regenerateAll() jest wywoływana na początku każdego dnia, oraz regeneruje 10% życia każdego ze zwierząt.*/
+        for(ArrayList<? extends Animal> rodzaj_zwierzecia: zwierzeta){
+            for(Animal zwierze: rodzaj_zwierzecia){
+                zwierze.regenerate();
+            }
         }
     }
 
     public static void removeAnimal(Iterator it){
+        /* Funkcja removeAnimal() odpowiada za usuwanie martwych zwierząt z symulacji. Przyjmuje iterator za parametr, gdyż
+         * zwierzęta są usuwane ze swoich list, co wymaga iterowania po nich i dopiero usuwania.
+         */
         it.remove();
     }
 
     public static void reset(){
+        /* Funkcja reset() powstała dla klasy Research oraz ma na celu jedynie ułatwienie badań.
+         * Nie ma wpływu na symulacje. Odpowiada jedynie za reset wszystkich postępów poprzedniej symulacji.
+         */
         zwierzeta.clear();
         kury.clear();
         koguty.clear();
@@ -206,6 +245,7 @@ public class Gameplay {
         jaja.clear();
         Farmer.reset();
         Map.reset();
+        Fox.reset();
 
         Day = 0;
     }
@@ -230,15 +270,17 @@ public class Gameplay {
         Visualisation = X;
     }
 
-    public static void setDaysToHatchAnEgg(int number){
-        DaysTilHatch = number;
-    }
-
     public static void startSymulation(){
+        /*  Funkcja startSymulation() wprawia w ruch całą symulacje. Odpowiada m.in. za poprawną kolejność wykonywania poszczególnych zadań.*/
+
         createAnimalList();
-        while(checkSymulationDestination()){    
+        while(checkSymulationDestination()){
+            Day++;                                                                                                  //Rozpocznij dzień:   
+            if(Day>1){
+                regenerateAll();                                                                                    //Gdy nastąpi nowy dzień, ulecz każde zwierzę o 10% HP.
+            } 
             Farmer.enableToMove();     
-            Day++;                                                                                                  //Rozpocznij dzień:
+            
             for(int i=0; i<getTurnNumber(); i++){                                                                   //Przebieg tury:                 
                 Henhouse.checkIfOverLoaded();                                                                        //Sprawdz, czy kurnik nie jest przeładowany
                 printTitle(i);
@@ -255,7 +297,7 @@ public class Gameplay {
                 Egg jajko = iterator.next();
                 jajko.countDaysToHatch(iterator);
             }
-            foxReproduction();                                                                                          //Sprawdz, czy populacja lisów się zwiększyła.        
+            foxReproduction();                                                                                          //Sprawdz, czy populacja lisów się zwiększyła.       
         }
         Map.show();
         raport();

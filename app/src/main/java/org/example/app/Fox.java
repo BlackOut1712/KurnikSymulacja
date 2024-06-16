@@ -5,8 +5,9 @@ import java.util.Iterator;
 
 public class Fox extends Animal{
     public static final String sign = Map.RED+"L"+Map.RESET;
+    private static int HensEaten = 0;
     private static int AnimalsEatenClock = 0;
-    private int numberOfPreys;
+    private int numberOfPreys;          //Parametr miał służyć do wyznaczania MVP wśród lisów, ale nie zdążyłem.
     private double min_damage;
     private double max_damage;
     private boolean isStunned = false;
@@ -33,6 +34,9 @@ public class Fox extends Animal{
     }
 
     private boolean attack(){
+        /*  funkcja attack() odpowiada za atakowanie drugiego zwierzecia. Zwraca true, gdy atak doszedł do skutku, oraz false, gdy nie ma nikogo w zasięgu. 
+         *  W przypadku gdy obiektem wywołującym jest pies, "triggeruje" on lisa, by zaczął walczyć z nim, a nie atakował kury.*/
+
         ArrayList<ArrayList<Integer>> Preys_in_attack_range = checkSurroudings(1);
         if(Preys_in_attack_range == null || Preys_in_attack_range.size() == 0){
             return false;
@@ -55,6 +59,9 @@ public class Fox extends Animal{
                         if(!(this instanceof Dog)){
                             AnimalsEatenClock++;
                         }
+                        if(zwierze instanceof Hen){
+                            HensEaten++;
+                        }
                         if(Gameplay.getLogsSetting()) System.out.println(Gameplay.determineSpecies(zwierze) + " ("+zwierze.X +","+zwierze.Y+") nie zyje.");
                     }
                     break;
@@ -65,12 +72,19 @@ public class Fox extends Animal{
     }
 
     private double countDamage(){
+        /* funkcja countDamage() jest funkcją kalkulującą obrażenia w przedziale (minimalne_obrazenia,maksymalne_obrazenia) oraz zwracającą ich wartość.*/
         double damage = Math.random()*(this.max_damage - this.min_damage)+min_damage;
         return damage;
     } 
 
     public static int getAnimalsEaten(){
+        /* Parametr AnimalsEaten() liczy zjedzone zwierzeta, by kontrolowac powiekszanie sie populacji*/
         return AnimalsEatenClock;
+    }
+
+    public static int getHensEaten(){
+        /* Funkcja powstała na potrzeby badań (klasy Research), brak udziału w symulacji */
+        return HensEaten;
     }
 
     public boolean isAttacked(){
@@ -78,11 +92,14 @@ public class Fox extends Animal{
     }
 
     public boolean Hunt(){
-        if(this.attack()){      //Atak sąsiada
+        /*  Funkcja Hunt() odpowiada za polowanie. Obiekt priorytetowo ma wykonac atak na ofiarę, jeśli taka znajduje się koło niego.
+         *  Jeśli nie, ma wykonać ruch w jej stronę i jeśli znajdzie się koło niej, wykonać atak. Zwraca true, gdy atak dojdzie do skutku.
+            Zwraca false gdy nie znajdzie nikogo w polu widzenia. */ 
+        if(this.attack()){      
             return true;
         }
 
-        if(this.run()){         //Jeśli sąsiada nie ma w pobliżu, przemieszczenie się i atak.
+        if(this.run()){        
             this.attack();
             return true;
         }
@@ -90,10 +107,11 @@ public class Fox extends Animal{
     }  
 
     public void makeAMove(){
-        if(Gameplay.isDay()){
+
+        if(Gameplay.isDay()){       //Jeśli jest dzień, pomiń turę
             return;
         }
-        if(isStunned){
+        if(isStunned){              //Jeśli lis jest ogłuszony, zdejmij ogłuszenie i pomiń turę.
             isStunned = false;
             return;
         }
@@ -110,7 +128,14 @@ public class Fox extends Animal{
         return numberOfPreys;
     }
 
+    public static void reset(){
+    /* Funkcja powstała na potrzeby badań (klasy Research), brak udziału w symulacji */
+        AnimalsEatenClock = 0;
+        HensEaten = 0;
+    }
+
     public static void setAnimalsEaten(int number){
+        /*Funkcja setAnimalsEaten() odpowiada za aktualizacje parametru zwiekszajacego populacje, po zwiększeniu populacji (patrz Gameplay.foxReproduction())*/
         AnimalsEatenClock = number;
     }
 

@@ -15,6 +15,8 @@ public class Dog extends Fox{
     }
 
     private void rest(){
+        /* Funkcja rest() odpowiada za odpoczynek psa, który pozwala mu na zregenerowanie 30% zycia. 
+            Włącza ona zegar, który sprawia, że pies nie może wykonać ruchu przez następne 3 tury (bo odpoczywa) */
         this.setHP(this.HP()+0.3*this.maxHP());
         this.isResting = true;
         this.restTurn=0;
@@ -22,6 +24,8 @@ public class Dog extends Fox{
     }
 
     private void restClock(){
+        /*  Funkcja restClock() jest zegarem mierzącym ilość tur odkad pies zaczął odpoczywać.
+         *  Kontroluje parametr isResting, który zapobiega wykonaniu ruchu przez psa podczas odpoczynku. */
         if(this.restTurn ==3){
             this.restTurn = null;
             this.isResting = false;
@@ -31,10 +35,11 @@ public class Dog extends Fox{
     }
 
     public void makeAMove(){
-        if(this.isResting){
+        if(this.isResting){     //Jeśli pies odpoczywa, pomiń jego turę.
             restClock();
             return;
         }
+        
         double randomizer = Math.random();
         double chanceToRest = 0.2;
         if(this.HP() < 0.3*this.maxHP()){           //Jeśli pies ma mało życia, zwiększona szansa na odpoczynek

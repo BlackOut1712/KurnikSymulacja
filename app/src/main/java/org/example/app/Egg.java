@@ -3,20 +3,16 @@ package org.example.app;
 import java.util.Iterator;
 
 public class Egg{
-    private boolean isAlive;
     private int DaysTilHatch;
 
     public Egg(int Days){
         this.DaysTilHatch = Days;
-        this.isAlive = true;
     }
 
     public void countDaysToHatch(Iterator it){
-        if(!isAlive){
-            Gameplay.removeAnimal(it);
-            return;
-        }
-
+        /*  Funkcja countDaysToHatch() odpowiada za odliczanie dni do wyklucia, a po ich minięciu wywołanie funkcji Hatch()
+         *  Przyjmuje za parametr Iterator, by przekazać go do funkcji Hatch().
+         */
         if(DaysTilHatch==0){
             hatch(it);
             return;
@@ -25,6 +21,9 @@ public class Egg{
     }
 
     private void hatch(Iterator it){
+        /*  Funkcja hatch() odpowiada za wyklucie jaja. Usuwa jajo z listy jaj (za pomoca przekazanego iteratora)
+         *  a nastepnie dodaje nowy obiekt kura.
+         */
         Gameplay.removeAnimal(it);
         Gameplay.addHen();
         if(Gameplay.getLogsSetting()) System.out.println("Jajko wykluwa sie.");

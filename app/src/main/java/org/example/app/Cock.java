@@ -1,12 +1,11 @@
 package org.example.app;
 
-import java.net.http.HttpResponse.PushPromiseHandler;
 import java.util.ArrayList;
 
 public class Cock extends Animal{
     public static final String sign = Map.BLUE+"C"+Map.RESET;
 
-    private int pushedFoxes = 0;
+    private int pushedFoxes = 0;    //Parametr miał służyć do wyznaczania MVP wśród kogutów ale nie zdążyłem :(
     private static int pushingForce;
 
     public Cock(){
@@ -31,6 +30,8 @@ public class Cock extends Animal{
     }
 
     private boolean push(){
+        /*  Funkcja push() odpowiada za odpychanie Lisów znajdujacych sie tuz obok koguta o ilosc pól równej pushingForce; */
+
         ArrayList<ArrayList<Integer>> Foxes_to_push = checkSurroudings(1);              //Sprawdzenie czy jakiś lis znajduje się na polu obok
         if(Foxes_to_push == null || Foxes_to_push.size()==0){
             //System.out.println("Nie ma kogo odpychac");

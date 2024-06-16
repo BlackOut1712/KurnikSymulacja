@@ -2,7 +2,7 @@ package org.example.app;
 
 public class Hen extends Animal {
     public static final String sign =Map.CYAN+"K"+Map.RESET;
-    private int laidEggs = 0;
+    private int laidEggs = 0;  //Parametr w pozniejszym stadium miał służyć jako wyznacznik MVP wśród Kur, ale nie zdążyłem :(
 
     public Hen(){
         super();
@@ -13,12 +13,10 @@ public class Hen extends Animal {
         this.setVision(5);
     }
 
-    public String getStats(){
-        System.out.println(super.getStats()+"\nLaid Eggs: "+laidEggs+".");
-        return super.getStats()+"\nLaid Eggs: "+laidEggs+".";
-    }
-
     public boolean layAnEgg(){
+        /* Funkcja layAnEgg() odpowiada za składanie jaj. Zwraca wartość true gdy kura zniesie jajo, oraz false gdy jest to niemożliwe
+         * Jajo można złożyć pod warunkiem, że przy życiu pozostał przynajmniej 1 kogut.
+         */
         if(Gameplay.getCocks().size()!=0){
             Gameplay.addEgg();
             laidEggs++;
