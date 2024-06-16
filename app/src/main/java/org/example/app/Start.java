@@ -13,7 +13,7 @@ class start{
     public static void menu(){
         /*  Funkcja menu() wyświetla menu do uzupełnienia parametrów startowych symulacji*/
         Scanner in = new Scanner(System.in);
-        System.out.println("Witaj w symulacji kurnika! By rozpocząć, wprowadź startowe parametry: \nWielkosc mapy (parametry oddziel litera x): ");
+        System.out.println("Witaj w symulacji kurnika! By rozpoczac, wprowadz startowe parametry: \nWielkosc mapy (parametry oddziel litera x): ");
         String[] Wymiary = in.nextLine().split("x");
         Map.generateMap(Integer.parseInt(Wymiary[0]), Integer.parseInt(Wymiary[1])); 
         System.out.println("Maksymalna liczbe dni symulacji: ");
