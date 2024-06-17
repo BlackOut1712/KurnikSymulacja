@@ -26,7 +26,7 @@ class start{
         Gameplay.addFox(in.nextInt());
         System.out.println("Liczbe psow: ");
         Gameplay.addDog(in.nextInt());
-        System.out.println("Szanse na obudzenie farmera (zalecana nie większa niż 0,01): ");
+        System.out.println("Szanse na obudzenie farmera (zalecana nie wieksza niż 0,01): ");
         Farmer.setChanceToAwake(in.nextDouble());
         System.out.println("Poziom smiertelnosci w przypadku wojny domowej (np. 0,50): ");
         Henhouse.setDisasterLevel(in.nextDouble());
